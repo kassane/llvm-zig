@@ -68,3 +68,42 @@ pub const LLVMDisasmContextRef = ?*anyopaque;
 // DebugInfo
 pub const LLVMMetadataKind = c_uint;
 pub const LLVMDWARFTypeEncoding = c_uint;
+
+// Analysis
+pub const LLVMVerifierFailureAction = c_uint;
+
+// Object
+pub const LLVMOpaqueSectionIterator = opaque {};
+pub const LLVMSectionIteratorRef = ?*LLVMOpaqueSectionIterator;
+pub const LLVMOpaqueSymbolIterator = opaque {};
+pub const LLVMSymbolIteratorRef = ?*LLVMOpaqueSymbolIterator;
+pub const LLVMOpaqueRelocationIterator = opaque {};
+pub const LLVMRelocationIteratorRef = ?*LLVMOpaqueRelocationIterator;
+pub const LLVMBinaryType = c_uint;
+pub const LLVMOpaqueObjectFile = opaque {};
+pub const LLVMObjectFileRef = ?*LLVMOpaqueObjectFile;
+
+// JIT
+pub const LLVMOpaqueGenericValue = opaque {};
+pub const LLVMGenericValueRef = ?*LLVMOpaqueGenericValue;
+pub const LLVMOpaqueExecutionEngine = opaque {};
+pub const LLVMExecutionEngineRef = ?*LLVMOpaqueExecutionEngine;
+pub const LLVMOpaqueMCJITMemoryManager = opaque {};
+pub const LLVMMCJITMemoryManagerRef = ?*LLVMOpaqueMCJITMemoryManager;
+
+// Target
+pub const LLVMOpaqueTargetData = opaque {};
+pub const LLVMTargetDataRef = ?*LLVMOpaqueTargetData;
+pub const LLVMOpaqueTargetLibraryInfotData = opaque {};
+pub const LLVMTargetLibraryInfoRef = ?*LLVMOpaqueTargetLibraryInfotData;
+pub const LLVMTarget = opaque {};
+pub const LLVMTargetRef = ?*LLVMTarget;
+
+// Target Machine
+pub const LLVMOpaqueTargetMachine = opaque {};
+pub const LLVMTargetMachineRef = ?*LLVMOpaqueTargetMachine;
+
+pub const LLVMCodeGenOptLevel = c_uint;
+pub const LLVMRelocMode = c_uint;
+pub const LLVMCodeModel = c_uint;
+pub const LLVMCodeGenFileType = c_uint;
