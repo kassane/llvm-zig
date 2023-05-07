@@ -23,3 +23,4 @@ pub extern fn LLVMGetDefaultTargetTriple() [*c]u8;
 pub extern fn LLVMNormalizeTargetTriple(triple: [*c]const u8) [*c]u8;
 pub extern fn LLVMGetHostCPUName() [*c]u8;
 pub extern fn LLVMGetHostCPUFeatures() [*c]u8;
+pub extern fn LLVMAddAnalysisPasses(T: LLVMtype.LLVMTargetMachineRef, PM: LLVMtype.LLVMPassManagerRef) void;

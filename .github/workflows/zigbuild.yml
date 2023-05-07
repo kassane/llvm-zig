@@ -1,0 +1,27 @@
+name: Unit tests Zig
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        runs-on: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: master
+      
+      - name: Install LLVM
+        if: startsWith(matrix.runs-on, 'ubuntu')
+        run: |
+            sudo apt update && sudo apt install -y llvm
+
+      - name: Build Summary
+        run: zig build test -fsummary -freference-trace

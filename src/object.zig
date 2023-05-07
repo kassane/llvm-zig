@@ -31,26 +31,3 @@ pub extern fn LLVMGetRelocationSymbol(RI: LLVMtype.LLVMRelocationIteratorRef) LL
 pub extern fn LLVMGetRelocationType(RI: LLVMtype.LLVMRelocationIteratorRef) u64;
 pub extern fn LLVMGetRelocationTypeName(RI: LLVMtype.LLVMRelocationIteratorRef) [*c]const u8;
 pub extern fn LLVMGetRelocationValueString(RI: LLVMtype.LLVMRelocationIteratorRef) [*c]const u8;
-pub extern fn LLVMCreateObjectFile(MemBuf: LLVMtype.LLVMMemoryBufferRef) LLVMtype.LLVMObjectFileRef;
-pub extern fn LLVMDisposeObjectFile(ObjectFile: LLVMtype.LLVMObjectFileRef) void;
-pub extern fn LLVMGetSections(ObjectFile: LLVMtype.LLVMObjectFileRef) LLVMtype.LLVMSectionIteratorRef;
-pub extern fn LLVMIsSectionIteratorAtEnd(ObjectFile: LLVMtype.LLVMObjectFileRef, SI: LLVMtype.LLVMSectionIteratorRef) LLVMtype.LLVMBool;
-pub extern fn LLVMGetSymbols(ObjectFile: LLVMtype.LLVMObjectFileRef) LLVMtype.LLVMSymbolIteratorRef;
-pub extern fn LLVMIsSymbolIteratorAtEnd(ObjectFile: LLVMtype.LLVMObjectFileRef, SI: LLVMtype.LLVMSymbolIteratorRef) LLVMtype.LLVMBool;
-
-pub const LLVMBinaryTypeArchive: c_int = 0;
-pub const LLVMBinaryTypeMachOUniversalBinary: c_int = 1;
-pub const LLVMBinaryTypeCOFFImportFile: c_int = 2;
-pub const LLVMBinaryTypeIR: c_int = 3;
-pub const LLVMBinaryTypeWinRes: c_int = 4;
-pub const LLVMBinaryTypeCOFF: c_int = 5;
-pub const LLVMBinaryTypeELF32L: c_int = 6;
-pub const LLVMBinaryTypeELF32B: c_int = 7;
-pub const LLVMBinaryTypeELF64L: c_int = 8;
-pub const LLVMBinaryTypeELF64B: c_int = 9;
-pub const LLVMBinaryTypeMachO32L: c_int = 10;
-pub const LLVMBinaryTypeMachO32B: c_int = 11;
-pub const LLVMBinaryTypeMachO64L: c_int = 12;
-pub const LLVMBinaryTypeMachO64B: c_int = 13;
-pub const LLVMBinaryTypeWasm: c_int = 14;
-pub const LLVMBinaryTypeOffload: c_int = 15;

@@ -19,16 +19,17 @@ pub fn build(b: *std.Build) void {
         .name = "llvm-kaleidoscope-zig",
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = .{ .path = "examples/disassembly.zig" },
         .target = target,
         .optimize = optimize,
     });
-    exe.addIncludePath("vendor/llvm-c"); //LLVM-16
     exe.defineCMacro("_FILE_OFFSET_BITS", "64");
     exe.defineCMacro("__STDC_CONSTANT_MACROS", null);
     exe.defineCMacro("__STDC_FORMAT_MACROS", null);
     exe.defineCMacro("__STDC_LIMIT_MACROS", null);
     exe.addModule("llvm", module(b));
+    exe.linkSystemLibrary("z");
+    exe.linkSystemLibrary("LLVM");
     exe.linkLibCpp();
 
     // This declares intent for the executable to be installed into the
@@ -62,10 +63,17 @@ pub fn build(b: *std.Build) void {
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
     const unit_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = .{ .path = "src/llvm.zig" },
         .target = target,
         .optimize = optimize,
     });
+    unit_tests.defineCMacro("_FILE_OFFSET_BITS", "64");
+    unit_tests.defineCMacro("__STDC_CONSTANT_MACROS", null);
+    unit_tests.defineCMacro("__STDC_FORMAT_MACROS", null);
+    unit_tests.defineCMacro("__STDC_LIMIT_MACROS", null);
+    unit_tests.linkLibCpp();
+    unit_tests.linkSystemLibrary("z");
+    unit_tests.linkSystemLibrary("LLVM");
 
     const run_unit_tests = b.addRunArtifact(unit_tests);
 

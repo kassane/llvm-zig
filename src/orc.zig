@@ -1,70 +1,27 @@
 const LLVMtype = @import("types.zig");
 
-pub const LLVMCodeGenLevelNone: c_int = 0;
-pub const LLVMCodeGenLevelLess: c_int = 1;
-pub const LLVMCodeGenLevelDefault: c_int = 2;
-pub const LLVMCodeGenLevelAggressive: c_int = 3;
-pub const LLVMCodeGenOptLevel = c_uint;
-pub const LLVMRelocDefault: c_int = 0;
-pub const LLVMRelocStatic: c_int = 1;
-pub const LLVMRelocPIC: c_int = 2;
-pub const LLVMRelocDynamicNoPic: c_int = 3;
-pub const LLVMRelocROPI: c_int = 4;
-pub const LLVMRelocRWPI: c_int = 5;
-pub const LLVMRelocROPI_RWPI: c_int = 6;
-pub const LLVMRelocMode = c_uint;
-pub const LLVMCodeModelDefault: c_int = 0;
-pub const LLVMCodeModelJITDefault: c_int = 1;
-pub const LLVMCodeModelTiny: c_int = 2;
-pub const LLVMCodeModelSmall: c_int = 3;
-pub const LLVMCodeModelKernel: c_int = 4;
-pub const LLVMCodeModelMedium: c_int = 5;
-pub const LLVMCodeModelLarge: c_int = 6;
-pub const LLVMCodeModel = c_uint;
-pub const LLVMAssemblyFile: c_int = 0;
-pub const LLVMObjectFile: c_int = 1;
-pub const LLVMCodeGenFileType = c_uint;
-pub extern fn LLVMGetFirstTarget() LLVMtype.LLVMTargetRef;
-pub extern fn LLVMGetNextTarget(T: LLVMtype.LLVMTargetRef) LLVMtype.LLVMTargetRef;
-pub extern fn LLVMGetTargetFromName(Name: [*c]const u8) LLVMtype.LLVMTargetRef;
-pub extern fn LLVMGetTargetFromTriple(Triple: [*c]const u8, T: [*c]LLVMtype.LLVMTargetRef, ErrorMessage: [*c][*c]u8) LLVMtype.LLVMBool;
-pub extern fn LLVMGetTargetName(T: LLVMtype.LLVMTargetRef) [*c]const u8;
-pub extern fn LLVMGetTargetDescription(T: LLVMtype.LLVMTargetRef) [*c]const u8;
-pub extern fn LLVMTargetHasJIT(T: LLVMtype.LLVMTargetRef) LLVMtype.LLVMBool;
-pub extern fn LLVMTargetHasTargetMachine(T: LLVMtype.LLVMTargetRef) LLVMtype.LLVMBool;
-pub extern fn LLVMTargetHasAsmBackend(T: LLVMtype.LLVMTargetRef) LLVMtype.LLVMBool;
-pub extern fn LLVMCreateTargetMachine(T: LLVMtype.LLVMTargetRef, Triple: [*c]const u8, CPU: [*c]const u8, Features: [*c]const u8, Level: LLVMCodeGenOptLevel, Reloc: LLVMRelocMode, CodeModel: LLVMCodeModel) LLVMtype.LLVMTargetMachineRef;
-pub extern fn LLVMDisposeTargetMachine(T: LLVMtype.LLVMTargetMachineRef) void;
-pub extern fn LLVMGetTargetMachineTarget(T: LLVMtype.LLVMTargetMachineRef) LLVMtype.LLVMTargetRef;
-pub extern fn LLVMGetTargetMachineTriple(T: LLVMtype.LLVMTargetMachineRef) [*c]u8;
-pub extern fn LLVMGetTargetMachineCPU(T: LLVMtype.LLVMTargetMachineRef) [*c]u8;
-pub extern fn LLVMGetTargetMachineFeatureString(T: LLVMtype.LLVMTargetMachineRef) [*c]u8;
-pub extern fn LLVMCreateTargetDataLayout(T: LLVMtype.LLVMTargetMachineRef) LLVMtype.LLVMTargetDataRef;
-pub extern fn LLVMSetTargetMachineAsmVerbosity(T: LLVMtype.LLVMTargetMachineRef, VerboseAsm: LLVMtype.LLVMBool) void;
-pub extern fn LLVMTargetMachineEmitToFile(T: LLVMtype.LLVMTargetMachineRef, M: LLVMtype.LLVMModuleRef, Filename: [*c]const u8, codegen: LLVMCodeGenFileType, ErrorMessage: [*c][*c]u8) LLVMtype.LLVMBool;
-pub extern fn LLVMTargetMachineEmitToMemoryBuffer(T: LLVMtype.LLVMTargetMachineRef, M: LLVMtype.LLVMModuleRef, codegen: LLVMCodeGenFileType, ErrorMessage: [*c][*c]u8, OutMemBuf: [*c]LLVMtype.LLVMMemoryBufferRef) LLVMtype.LLVMBool;
-pub extern fn LLVMGetDefaultTargetTriple() [*c]u8;
-pub extern fn LLVMNormalizeTargetTriple(triple: [*c]const u8) [*c]u8;
-pub extern fn LLVMGetHostCPUName() [*c]u8;
-pub extern fn LLVMGetHostCPUFeatures() [*c]u8;
-pub extern fn LLVMAddAnalysisPasses(T: LLVMtype.LLVMTargetMachineRef, PM: LLVMtype.LLVMPassManagerRef) void;
+pub const LLVMJITSymbolTargetFlags = u8;
 pub const LLVMOrcJITTargetAddress = u64;
 pub const LLVMOrcExecutorAddress = u64;
-pub const LLVMJITSymbolGenericFlagsNone: c_int = 0;
-pub const LLVMJITSymbolGenericFlagsExported: c_int = 1;
-pub const LLVMJITSymbolGenericFlagsWeak: c_int = 2;
-pub const LLVMJITSymbolGenericFlagsCallable: c_int = 4;
-pub const LLVMJITSymbolGenericFlagsMaterializationSideEffectsOnly: c_int = 8;
-pub const LLVMJITSymbolGenericFlags = c_uint;
-pub const LLVMJITSymbolTargetFlags = u8;
+
+pub const LLVMJITSymbolGenericFlags = enum(c_int) {
+    LLVMJITSymbolGenericFlagsNone = 0,
+    LLVMJITSymbolGenericFlagsExported = 1 << 0,
+    LLVMJITSymbolGenericFlagsWeak = 1 << 1,
+    LLVMJITSymbolGenericFlagsCallable = 1 << 2,
+    LLVMJITSymbolGenericFlagsMaterializationSideEffectsOnly = 1 << 3,
+};
+
 pub const LLVMJITSymbolFlags = extern struct {
     GenericFlags: u8,
     TargetFlags: u8,
 };
+
 pub const LLVMJITEvaluatedSymbol = extern struct {
     Address: LLVMOrcExecutorAddress,
     Flags: LLVMJITSymbolFlags,
 };
+
 pub const LLVMOrcOpaqueExecutionSession = opaque {};
 pub const LLVMOrcExecutionSessionRef = ?*LLVMOrcOpaqueExecutionSession;
 pub const LLVMOrcErrorReporterFunction = ?*const fn (?*anyopaque, LLVMtype.LLVMErrorRef) callconv(.C) void;
@@ -102,20 +59,24 @@ pub const LLVMOrcCDependenceMapPair = extern struct {
     Names: LLVMOrcCSymbolsList,
 };
 pub const LLVMOrcCDependenceMapPairs = [*c]LLVMOrcCDependenceMapPair;
-pub const LLVMOrcLookupKindStatic: c_int = 0;
-pub const LLVMOrcLookupKindDLSym: c_int = 1;
-pub const LLVMOrcLookupKind = c_uint;
-pub const LLVMOrcJITDylibLookupFlagsMatchExportedSymbolsOnly: c_int = 0;
-pub const LLVMOrcJITDylibLookupFlagsMatchAllSymbols: c_int = 1;
-pub const LLVMOrcJITDylibLookupFlags = c_uint;
+pub const LLVMOrcLookupKind = enum(c_int) {
+    LLVMOrcLookupKindStatic,
+    LLVMOrcLookupKindDLSym,
+};
+
+pub const LLVMOrcJITDylibLookupFlags = enum(c_int) {
+    LLVMOrcJITDylibLookupFlagsMatchExportedSymbolsOnly,
+    LLVMOrcJITDylibLookupFlagsMatchAllSymbols,
+};
 pub const LLVMOrcCJITDylibSearchOrderElement = extern struct {
     JD: LLVMOrcJITDylibRef,
     JDLookupFlags: LLVMOrcJITDylibLookupFlags,
 };
 pub const LLVMOrcCJITDylibSearchOrder = [*c]LLVMOrcCJITDylibSearchOrderElement;
-pub const LLVMOrcSymbolLookupFlagsRequiredSymbol: c_int = 0;
-pub const LLVMOrcSymbolLookupFlagsWeaklyReferencedSymbol: c_int = 1;
-pub const LLVMOrcSymbolLookupFlags = c_uint;
+pub const LLVMOrcSymbolLookupFlags = enum(c_int) {
+    LLVMOrcSymbolLookupFlagsRequiredSymbol,
+    LLVMOrcSymbolLookupFlagsWeaklyReferencedSymbol,
+};
 pub const LLVMOrcCLookupSetElement = extern struct {
     Name: LLVMOrcSymbolStringPoolEntryRef,
     LookupFlags: LLVMOrcSymbolLookupFlags,

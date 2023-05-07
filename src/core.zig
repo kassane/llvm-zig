@@ -12,10 +12,10 @@ pub const LLVMDiagnosticHandler = ?*const fn (LLVMtype.LLVMDiagnosticInfoRef, ?*
 pub const LLVMYieldCallback = ?*const fn (LLVMtype.LLVMContextRef, ?*anyopaque) callconv(.C) void;
 pub extern fn LLVMContextCreate() LLVMtype.LLVMContextRef;
 pub extern fn LLVMGetGlobalContext() LLVMtype.LLVMContextRef;
-pub extern fn LLVMContextSetDiagnosticHandler(C: LLVMtype.LLVMContextRef, Handler: LLVMtype.LLVMDiagnosticHandler, DiagnosticContext: ?*anyopaque) void;
-pub extern fn LLVMContextGetDiagnosticHandler(C: LLVMtype.LLVMContextRef) LLVMtype.LLVMDiagnosticHandler;
+pub extern fn LLVMContextSetDiagnosticHandler(C: LLVMtype.LLVMContextRef, Handler: LLVMDiagnosticHandler, DiagnosticContext: ?*anyopaque) void;
+pub extern fn LLVMContextGetDiagnosticHandler(C: LLVMtype.LLVMContextRef) LLVMDiagnosticHandler;
 pub extern fn LLVMContextGetDiagnosticContext(C: LLVMtype.LLVMContextRef) ?*anyopaque;
-pub extern fn LLVMContextSetYieldCallback(C: LLVMtype.LLVMContextRef, Callback: LLVMtype.LLVMYieldCallback, OpaqueHandle: ?*anyopaque) void;
+pub extern fn LLVMContextSetYieldCallback(C: LLVMtype.LLVMContextRef, Callback: LLVMYieldCallback, OpaqueHandle: ?*anyopaque) void;
 pub extern fn LLVMContextShouldDiscardValueNames(C: LLVMtype.LLVMContextRef) LLVMtype.LLVMBool;
 pub extern fn LLVMContextSetDiscardValueNames(C: LLVMtype.LLVMContextRef, Discard: LLVMtype.LLVMBool) void;
 pub extern fn LLVMContextSetOpaquePointers(C: LLVMtype.LLVMContextRef, OpaquePointers: LLVMtype.LLVMBool) void;
