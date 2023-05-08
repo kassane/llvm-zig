@@ -22,6 +22,7 @@ pub const support = @import("support.zig");
 pub const target = @import("target.zig");
 pub const target_machine = @import("target_machine.zig");
 pub const transform = @import("transform.zig");
+pub const types = @import("types.zig");
 
 test "all LLVM modules" {
     _ = analysis;
