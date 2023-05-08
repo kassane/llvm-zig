@@ -18,10 +18,19 @@ jobs:
         with:
           version: master
       
-      - name: Install LLVM
+      - name: Install LLVM (Linux)
         if: startsWith(matrix.runs-on, 'ubuntu')
         run: |
-            sudo apt update && sudo apt install -y llvm
+            sudo apt update
+            sudo apt install -y wget
+            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+            wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+            sudo apt update
+            sudo apt install -y llvm-16
+
+      - name: Install LLVM (MacOS)
+        if: startsWith(matrix.runs-on, 'macos')
+        run: brew install llvm
 
       - name: Build Summary
         run: zig build test -fsummary -freference-trace

@@ -19,7 +19,7 @@ pub fn build(b: *std.Build) void {
         .name = "llvm-kaleidoscope-zig",
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .path = "examples/disassembly.zig" },
+        .root_source_file = .{ .path = "examples/kaleidoscope.zig" },
         .target = target,
         .optimize = optimize,
     });
@@ -71,9 +71,16 @@ pub fn build(b: *std.Build) void {
     unit_tests.defineCMacro("__STDC_CONSTANT_MACROS", null);
     unit_tests.defineCMacro("__STDC_FORMAT_MACROS", null);
     unit_tests.defineCMacro("__STDC_LIMIT_MACROS", null);
-    unit_tests.linkLibCpp();
     unit_tests.linkSystemLibrary("z");
-    unit_tests.linkSystemLibrary("LLVM");
+    switch (target.getOsTag()) {
+        .linux => unit_tests.linkSystemLibrary("LLVM-16"), // Ubuntu
+        .macos => {
+            unit_tests.addLibraryPath("/usr/local/opt/llvm/lib");
+            unit_tests.linkSystemLibrary("LLVM");
+        },
+        else => unit_tests.linkSystemLibrary("LLVM"),
+    }
+    unit_tests.linkLibCpp();
 
     const run_unit_tests = b.addRunArtifact(unit_tests);
 

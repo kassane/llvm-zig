@@ -14,10 +14,11 @@ pub extern fn LLVMInitializePowerPCTargetInfo() void;
 pub extern fn LLVMInitializeRISCVTargetInfo() void;
 pub extern fn LLVMInitializeSparcTargetInfo() void;
 pub extern fn LLVMInitializeSystemZTargetInfo() void;
-pub extern fn LLVMInitializeVETargetInfo() void;
 pub extern fn LLVMInitializeWebAssemblyTargetInfo() void;
 pub extern fn LLVMInitializeX86TargetInfo() void;
 pub extern fn LLVMInitializeXCoreTargetInfo() void;
+pub extern fn LLVMInitializeVETargetInfo() void;
+
 pub extern fn LLVMInitializeAArch64Target() void;
 pub extern fn LLVMInitializeAMDGPUTarget() void;
 pub extern fn LLVMInitializeARMTarget() void;
@@ -32,10 +33,11 @@ pub extern fn LLVMInitializePowerPCTarget() void;
 pub extern fn LLVMInitializeRISCVTarget() void;
 pub extern fn LLVMInitializeSparcTarget() void;
 pub extern fn LLVMInitializeSystemZTarget() void;
-pub extern fn LLVMInitializeVETarget() void;
 pub extern fn LLVMInitializeWebAssemblyTarget() void;
 pub extern fn LLVMInitializeX86Target() void;
 pub extern fn LLVMInitializeXCoreTarget() void;
+pub extern fn LLVMInitializeVETarget() void;
+
 pub extern fn LLVMInitializeAArch64TargetMC() void;
 pub extern fn LLVMInitializeAMDGPUTargetMC() void;
 pub extern fn LLVMInitializeARMTargetMC() void;
@@ -50,10 +52,11 @@ pub extern fn LLVMInitializePowerPCTargetMC() void;
 pub extern fn LLVMInitializeRISCVTargetMC() void;
 pub extern fn LLVMInitializeSparcTargetMC() void;
 pub extern fn LLVMInitializeSystemZTargetMC() void;
-pub extern fn LLVMInitializeVETargetMC() void;
 pub extern fn LLVMInitializeWebAssemblyTargetMC() void;
 pub extern fn LLVMInitializeX86TargetMC() void;
 pub extern fn LLVMInitializeXCoreTargetMC() void;
+pub extern fn LLVMInitializeVETargetMC() void;
+
 pub extern fn LLVMInitializeAArch64AsmPrinter() void;
 pub extern fn LLVMInitializeAMDGPUAsmPrinter() void;
 pub extern fn LLVMInitializeARMAsmPrinter() void;
@@ -68,10 +71,11 @@ pub extern fn LLVMInitializePowerPCAsmPrinter() void;
 pub extern fn LLVMInitializeRISCVAsmPrinter() void;
 pub extern fn LLVMInitializeSparcAsmPrinter() void;
 pub extern fn LLVMInitializeSystemZAsmPrinter() void;
-pub extern fn LLVMInitializeVEAsmPrinter() void;
 pub extern fn LLVMInitializeWebAssemblyAsmPrinter() void;
 pub extern fn LLVMInitializeX86AsmPrinter() void;
 pub extern fn LLVMInitializeXCoreAsmPrinter() void;
+pub extern fn LLVMInitializeVEAsmPrinter() void;
+
 pub extern fn LLVMInitializeAArch64AsmParser() void;
 pub extern fn LLVMInitializeAMDGPUAsmParser() void;
 pub extern fn LLVMInitializeARMAsmParser() void;
@@ -85,9 +89,10 @@ pub extern fn LLVMInitializePowerPCAsmParser() void;
 pub extern fn LLVMInitializeRISCVAsmParser() void;
 pub extern fn LLVMInitializeSparcAsmParser() void;
 pub extern fn LLVMInitializeSystemZAsmParser() void;
-pub extern fn LLVMInitializeVEAsmParser() void;
 pub extern fn LLVMInitializeWebAssemblyAsmParser() void;
 pub extern fn LLVMInitializeX86AsmParser() void;
+pub extern fn LLVMInitializeVEAsmParser() void;
+
 pub extern fn LLVMInitializeAArch64Disassembler() void;
 pub extern fn LLVMInitializeAMDGPUDisassembler() void;
 pub extern fn LLVMInitializeARMDisassembler() void;
@@ -105,6 +110,7 @@ pub extern fn LLVMInitializeVEDisassembler() void;
 pub extern fn LLVMInitializeWebAssemblyDisassembler() void;
 pub extern fn LLVMInitializeX86Disassembler() void;
 pub extern fn LLVMInitializeXCoreDisassembler() void;
+
 pub fn LLVMInitializeAllTargetInfos() callconv(.C) void {
     LLVMInitializeAArch64TargetInfo();
     LLVMInitializeAMDGPUTargetInfo();
@@ -120,10 +126,10 @@ pub fn LLVMInitializeAllTargetInfos() callconv(.C) void {
     LLVMInitializeRISCVTargetInfo();
     LLVMInitializeSparcTargetInfo();
     LLVMInitializeSystemZTargetInfo();
-    LLVMInitializeVETargetInfo();
     LLVMInitializeWebAssemblyTargetInfo();
     LLVMInitializeX86TargetInfo();
     LLVMInitializeXCoreTargetInfo();
+    LLVMInitializeVETargetInfo();
 }
 pub fn LLVMInitializeAllTargets() callconv(.C) void {
     LLVMInitializeAArch64Target();
@@ -140,10 +146,10 @@ pub fn LLVMInitializeAllTargets() callconv(.C) void {
     LLVMInitializeRISCVTarget();
     LLVMInitializeSparcTarget();
     LLVMInitializeSystemZTarget();
-    LLVMInitializeVETarget();
     LLVMInitializeWebAssemblyTarget();
     LLVMInitializeX86Target();
     LLVMInitializeXCoreTarget();
+    LLVMInitializeVETarget();
 }
 pub fn LLVMInitializeAllTargetMCs() callconv(.C) void {
     LLVMInitializeAArch64TargetMC();
@@ -160,10 +166,10 @@ pub fn LLVMInitializeAllTargetMCs() callconv(.C) void {
     LLVMInitializeRISCVTargetMC();
     LLVMInitializeSparcTargetMC();
     LLVMInitializeSystemZTargetMC();
-    LLVMInitializeVETargetMC();
     LLVMInitializeWebAssemblyTargetMC();
     LLVMInitializeX86TargetMC();
     LLVMInitializeXCoreTargetMC();
+    LLVMInitializeVETargetMC();
 }
 pub fn LLVMInitializeAllAsmPrinters() callconv(.C) void {
     LLVMInitializeAArch64AsmPrinter();
@@ -180,10 +186,10 @@ pub fn LLVMInitializeAllAsmPrinters() callconv(.C) void {
     LLVMInitializeRISCVAsmPrinter();
     LLVMInitializeSparcAsmPrinter();
     LLVMInitializeSystemZAsmPrinter();
-    LLVMInitializeVEAsmPrinter();
     LLVMInitializeWebAssemblyAsmPrinter();
     LLVMInitializeX86AsmPrinter();
     LLVMInitializeXCoreAsmPrinter();
+    LLVMInitializeVEAsmPrinter();
 }
 pub fn LLVMInitializeAllAsmParsers() callconv(.C) void {
     LLVMInitializeAArch64AsmParser();
@@ -199,9 +205,9 @@ pub fn LLVMInitializeAllAsmParsers() callconv(.C) void {
     LLVMInitializeRISCVAsmParser();
     LLVMInitializeSparcAsmParser();
     LLVMInitializeSystemZAsmParser();
-    LLVMInitializeVEAsmParser();
     LLVMInitializeWebAssemblyAsmParser();
     LLVMInitializeX86AsmParser();
+    LLVMInitializeVEAsmParser();
 }
 pub fn LLVMInitializeAllDisassemblers() callconv(.C) void {
     LLVMInitializeAArch64Disassembler();
@@ -217,10 +223,10 @@ pub fn LLVMInitializeAllDisassemblers() callconv(.C) void {
     LLVMInitializeRISCVDisassembler();
     LLVMInitializeSparcDisassembler();
     LLVMInitializeSystemZDisassembler();
-    LLVMInitializeVEDisassembler();
     LLVMInitializeWebAssemblyDisassembler();
     LLVMInitializeX86Disassembler();
     LLVMInitializeXCoreDisassembler();
+    LLVMInitializeVEDisassembler();
 }
 pub fn LLVMInitializeNativeTarget() callconv(.C) LLVMtype.LLVMBool {
     LLVMInitializeX86TargetInfo();
@@ -240,6 +246,7 @@ pub fn LLVMInitializeNativeDisassembler() callconv(.C) LLVMtype.LLVMBool {
     LLVMInitializeX86Disassembler();
     return 0;
 }
+
 pub extern fn LLVMGetModuleDataLayout(M: LLVMtype.LLVMModuleRef) LLVMtype.LLVMTargetDataRef;
 pub extern fn LLVMSetModuleDataLayout(M: LLVMtype.LLVMModuleRef, DL: LLVMtype.LLVMTargetDataRef) void;
 pub extern fn LLVMCreateTargetData(StringRep: [*c]const u8) LLVMtype.LLVMTargetDataRef;
