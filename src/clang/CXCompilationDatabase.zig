@@ -1,0 +1,23 @@
+const CXString = @import("CXString.zig");
+const std = @import("std");
+
+pub const CXCompilationDatabase = ?*anyopaque;
+pub const CXCompileCommands = ?*anyopaque;
+pub const CXCompileCommand = ?*anyopaque;
+pub const CXCompilationDatabase_NoError: c_int = 0;
+pub const CXCompilationDatabase_CanNotLoadDatabase: c_int = 1;
+pub const CXCompilationDatabase_Error = c_uint;
+pub extern fn clang_CompilationDatabase_fromDirectory(BuildDir: [*:0]const u8, ErrorCode: [*c]CXCompilationDatabase_Error) CXCompilationDatabase;
+pub extern fn clang_CompilationDatabase_dispose(CXCompilationDatabase) void;
+pub extern fn clang_CompilationDatabase_getCompileCommands(CXCompilationDatabase, CompleteFileName: [*:0]const u8) CXCompileCommands;
+pub extern fn clang_CompilationDatabase_getAllCompileCommands(CXCompilationDatabase) CXCompileCommands;
+pub extern fn clang_CompileCommands_dispose(CXCompileCommands) void;
+pub extern fn clang_CompileCommands_getSize(CXCompileCommands) c_uint;
+pub extern fn clang_CompileCommands_getCommand(CXCompileCommands, I: c_uint) CXCompileCommand;
+pub extern fn clang_CompileCommand_getDirectory(CXCompileCommand) CXString.CXString;
+pub extern fn clang_CompileCommand_getFilename(CXCompileCommand) CXString.CXString;
+pub extern fn clang_CompileCommand_getNumArgs(CXCompileCommand) c_uint;
+pub extern fn clang_CompileCommand_getArg(CXCompileCommand, I: c_uint) CXString.CXString;
+pub extern fn clang_CompileCommand_getNumMappedSources(CXCompileCommand) c_uint;
+pub extern fn clang_CompileCommand_getMappedSourcePath(CXCompileCommand, I: c_uint) CXString.CXString;
+pub extern fn clang_CompileCommand_getMappedSourceContent(CXCompileCommand, I: c_uint) CXString.CXString;
