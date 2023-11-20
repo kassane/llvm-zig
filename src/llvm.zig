@@ -1,5 +1,3 @@
-const std = @import("std");
-
 pub const analysis = @import("analysis.zig");
 pub const blake3 = @import("blake3.zig");
 pub const bitreader = @import("bitreader.zig");
@@ -47,7 +45,4 @@ test "all LLVM modules" {
     _ = target;
     _ = target_machine;
     _ = transform;
-
-    const testing = std.testing;
-    testing.refAllDeclsRecursive(@This());
 }

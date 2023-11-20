@@ -4,6 +4,17 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    _ = b.addModule("llvm", .{
+        .source_file = .{
+            .path = "src/llvm.zig",
+        },
+    });
+    _ = b.addModule("clang", .{
+        .source_file = .{
+            .path = "src/clang.zig",
+        },
+    });
+
     const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
 
     if (examples) {
@@ -31,7 +42,7 @@ fn buildExample(b: *std.Build, i: BuildInfo) void {
     exe.defineCMacro("__STDC_CONSTANT_MACROS", null);
     exe.defineCMacro("__STDC_FORMAT_MACROS", null);
     exe.defineCMacro("__STDC_LIMIT_MACROS", null);
-    exe.addModule("llvm", module(b));
+    exe.addModule("llvm", b.modules.get("llvm").?);
     exe.linkSystemLibrary("z");
     switch (i.target.getOsTag()) {
         .linux => exe.linkSystemLibrary("LLVM-16"), // Ubuntu
@@ -55,14 +66,6 @@ fn buildExample(b: *std.Build, i: BuildInfo) void {
 
     const run_step = b.step(i.filename(), b.fmt("Run the {s}", .{i.filename()}));
     run_step.dependOn(&run_cmd.step);
-}
-
-pub fn module(b: *std.Build) *std.Build.Module {
-    return b.createModule(.{
-        .source_file = .{
-            .path = "src/llvm.zig",
-        },
-    });
 }
 
 const BuildInfo = struct {
