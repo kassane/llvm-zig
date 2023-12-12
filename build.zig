@@ -94,7 +94,14 @@ fn buildTests(b: *std.Build) void {
         .optimize = .Debug,
         .name = "clang-tests",
     });
-    clang_tests.linkSystemLibrary("clang");
+    switch (clang_tests.target.getOsTag()) {
+        .linux => clang_tests.linkSystemLibrary("clang-17"), // Ubuntu
+        .macos => {
+            clang_tests.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
+            clang_tests.linkSystemLibrary("clang");
+        },
+        else => clang_tests.linkSystemLibrary("clang"),
+    }
     clang_tests.linkLibC();
 
     llvm_tests.defineCMacro("_FILE_OFFSET_BITS", "64");
