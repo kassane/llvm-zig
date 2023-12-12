@@ -28,7 +28,7 @@ jobs:
 
       - name: Install LLVM (MacOS)
         if: startsWith(matrix.runs-on, 'macos')
-        run: brew install --with-toolchain llvm
+        run: brew install llvm
 
       - name: Build Summary
         run: |

@@ -120,7 +120,8 @@ fn buildTests(b: *std.Build) void {
     }
     llvm_tests.linkLibC();
 
-    llvm_tests.step.dependOn(&clang_tests.step);
+    // TODO: CI build LLVM tests with clang
+    // llvm_tests.step.dependOn(&clang_tests.step);
     const run_llvm_tests = b.addRunArtifact(llvm_tests);
     const test_llvm_step = b.step("test", "Run LLVM-binding tests");
     test_llvm_step.dependOn(&run_llvm_tests.step);
