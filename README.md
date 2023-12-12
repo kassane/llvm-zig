@@ -10,7 +10,7 @@ implement every chapter in zig.
 
 ### Requirement
 
-- [zig v0.11](https://ziglang.org/download) or higher.
+- [zig v0.12.0](https://ziglang.org/download) or higher.
 
 
 ## References
