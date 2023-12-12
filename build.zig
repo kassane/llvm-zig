@@ -45,7 +45,7 @@ fn buildExample(b: *std.Build, i: BuildInfo) void {
     exe.addModule("llvm", b.modules.get("llvm").?);
     exe.linkSystemLibrary("z");
     switch (i.target.getOsTag()) {
-        .linux => exe.linkSystemLibrary("LLVM-16"), // Ubuntu
+        .linux => exe.linkSystemLibrary("LLVM-17"), // Ubuntu
         .macos => {
             exe.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
             exe.linkSystemLibrary("LLVM");

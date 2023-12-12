@@ -15,8 +15,8 @@ pub fn main() void {
     defer core.LLVMShutdown();
 
     // Create a new LLVM module
-    var module: types.LLVMModuleRef = core.LLVMModuleCreateWithName("factorial_module");
-    var builder: types.LLVMBuilderRef = core.LLVMCreateBuilder();
+    const module: types.LLVMModuleRef = core.LLVMModuleCreateWithName("factorial_module");
+    const builder: types.LLVMBuilderRef = core.LLVMCreateBuilder();
 
     // Create the factorial function
     const returnType: types.LLVMTypeRef = core.LLVMInt32Type();

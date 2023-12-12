@@ -10,23 +10,21 @@ jobs:
         runs-on: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.runs-on }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
       - uses: goto-bus-stop/setup-zig@v2
-        with:
-          version: master
       
       - name: Install LLVM (Linux)
         if: startsWith(matrix.runs-on, 'ubuntu')
         run: |
             sudo apt update
             sudo apt install -y wget
-            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
             wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
             sudo apt update
-            sudo apt install -y llvm-16
+            sudo apt install -y llvm-17
 
       - name: Install LLVM (MacOS)
         if: startsWith(matrix.runs-on, 'macos')

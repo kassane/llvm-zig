@@ -11,7 +11,7 @@ pub fn main() void {
     _ = target.LLVMInitializeNativeAsmParser();
 
     // Create a new LLVM module
-    var module: types.LLVMModuleRef = core.LLVMModuleCreateWithName("sum_module");
+    const module: types.LLVMModuleRef = core.LLVMModuleCreateWithName("sum_module");
     var params: [2]types.LLVMTypeRef = [_]types.LLVMTypeRef{
         core.LLVMInt32Type(),
         core.LLVMInt32Type(),
