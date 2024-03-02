@@ -1,7 +1,8 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) void {
-    const target = b.standardTargetOptions(.{});
+    const target_query: std.Target.Query = .{};
+    const target = b.resolveTargetQuery(target_query);
     const optimize = b.standardOptimizeOption(.{});
 
     _ = b.addModule("llvm", .{
@@ -15,38 +16,38 @@ pub fn build(b: *std.Build) void {
         },
     });
 
-    //buildTests(b);
+    buildTests(b, target);
 
-    const examples = false;// b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
+    const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
 
     if (examples) {
-        buildExample(b, .{
+        buildExample(b, target, .{
             .filepath = "examples/sum_module.zig",
-            .target = target,
+            .target = target.query,
             .optimize = optimize,
         });
-        buildExample(b, .{
+        buildExample(b, target, .{
             .filepath = "examples/fatorial_module.zig",
-            .target = target,
+            .target = target.query,
             .optimize = optimize,
         });
     }
 }
 
-fn buildExample(b: *std.Build, i: BuildInfo) void {
+fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) void {
     const exe = b.addExecutable(.{
         .name = i.filename(),
         .root_source_file = .{ .path = i.filepath },
-        .target = i.target,
+        .target = target,
         .optimize = i.optimize,
     });
     exe.defineCMacro("_FILE_OFFSET_BITS", "64");
     exe.defineCMacro("__STDC_CONSTANT_MACROS", null);
     exe.defineCMacro("__STDC_FORMAT_MACROS", null);
     exe.defineCMacro("__STDC_LIMIT_MACROS", null);
-    exe.addModule("llvm", b.modules.get("llvm").?);
+    exe.root_module.addImport("llvm", b.modules.get("llvm").?);
     exe.linkSystemLibrary("z");
-    switch (i.target.getOsTag()) {
+    switch (target.result.os.tag) {
         .linux => exe.linkSystemLibrary("LLVM-17"), // Ubuntu
         .macos => {
             exe.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
@@ -81,20 +82,20 @@ const BuildInfo = struct {
     }
 };
 
-fn buildTests(b: *std.Build) void {
+fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
     const llvm_tests = b.addTest(.{
         .root_source_file = .{ .path = "src/llvm.zig" },
-        .target = .{},
+        .target = target,
         .optimize = .Debug,
         .name = "llvm-tests",
     });
     const clang_tests = b.addTest(.{
         .root_source_file = .{ .path = "src/clang.zig" },
-        .target = .{},
+        .target = target,
         .optimize = .Debug,
         .name = "clang-tests",
     });
-    switch (clang_tests.target.getOsTag()) {
+    switch (target.result.os.tag) {
         .linux => clang_tests.linkSystemLibrary("clang-17"), // Ubuntu
         .macos => {
             clang_tests.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
@@ -108,9 +109,9 @@ fn buildTests(b: *std.Build) void {
     llvm_tests.defineCMacro("__STDC_CONSTANT_MACROS", null);
     llvm_tests.defineCMacro("__STDC_FORMAT_MACROS", null);
     llvm_tests.defineCMacro("__STDC_LIMIT_MACROS", null);
-    llvm_tests.addModule("llvm", b.modules.get("llvm").?);
+    llvm_tests.root_module.addImport("llvm", b.modules.get("llvm").?);
     llvm_tests.linkSystemLibrary("z");
-    switch (llvm_tests.target.getOsTag()) {
+    switch (target.result.os.tag) {
         .linux => llvm_tests.linkSystemLibrary("LLVM-17"), // Ubuntu
         .macos => {
             llvm_tests.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
