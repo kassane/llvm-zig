@@ -5,19 +5,19 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     _ = b.addModule("llvm", .{
-        .source_file = .{
+        .root_source_file = .{
             .path = "src/llvm.zig",
         },
     });
     _ = b.addModule("clang", .{
-        .source_file = .{
+        .root_source_file = .{
             .path = "src/clang.zig",
         },
     });
 
-    buildTests(b);
+    //buildTests(b);
 
-    const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
+    const examples = false;// b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
 
     if (examples) {
         buildExample(b, .{

@@ -1,5 +1,5 @@
 .{
     .name = "llvm-zig",
     .version = "0.0.0",
-    .path = .{"."},
+    .paths = .{"."},
 }
