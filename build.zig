@@ -1,6 +1,6 @@
 const std = @import("std");
 
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.Build) !void {
     const target_query: std.Target.Query = .{};
     const target = b.resolveTargetQuery(target_query);
     const optimize = b.standardOptimizeOption(.{});
@@ -12,7 +12,18 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize
     });
 
+    switch (target.result.os.tag) {
+        .linux => lib.linkSystemLibrary("LLVM-17"), // Ubuntu
+        .macos => {
+            lib.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
+            lib.linkSystemLibrary("LLVM");
+        },
+        else => lib.linkSystemLibrary("LLVM"),
+    }
+
     b.installArtifact(lib);
+
+    _ = try b.modules.put("llvm", &lib.root_module);
 
     _ = b.addModule("clang", .{
         .root_source_file = .{
@@ -51,14 +62,6 @@ fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build
     exe.defineCMacro("__STDC_LIMIT_MACROS", null);
     exe.root_module.addImport("llvm", &lib.root_module);
     exe.linkSystemLibrary("z");
-    switch (target.result.os.tag) {
-        .linux => exe.linkSystemLibrary("LLVM-17"), // Ubuntu
-        .macos => {
-            exe.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
-            exe.linkSystemLibrary("LLVM");
-        },
-        else => exe.linkSystemLibrary("LLVM"),
-    }
     exe.linkLibC();
 
     b.installArtifact(exe);
