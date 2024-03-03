@@ -51,10 +51,7 @@ pub fn build(b: *std.Build) !void {
         });
     }
 
-    const tests = b.option(bool, "Tests", "Build all tests [default: false]") orelse false;
-    if (tests) {
-        buildTests(b, target);
-    }
+    buildTests(b, target);
 }
 
 fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) void {
