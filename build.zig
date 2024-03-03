@@ -7,7 +7,7 @@ pub fn build(b: *std.Build) !void {
 
     const lib = b.addStaticLibrary(.{
         .name = "llvm", 
-        .root_source_file = .{.path = "src/llvm.zig"},
+        .root_source_file = .{.path = "src/llvm-zig.zig"},
         .target = target,
         .optimize = optimize
     });
@@ -90,7 +90,7 @@ const BuildInfo = struct {
 
 fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
     const llvm_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/llvm.zig" },
+        .root_source_file = .{ .path = "src/llvm-zig.zig" },
         .target = target,
         .optimize = .Debug,
         .name = "llvm-tests",
