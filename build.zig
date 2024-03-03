@@ -37,32 +37,34 @@ pub fn build(b: *std.Build) !void {
         },
     });
 
-    buildTests(b, target, lib);
-
     const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
-
     if (examples) {
-        buildExample(b, target, lib, .{
+        buildExample(b, target, .{
             .filepath = "examples/sum_module.zig",
             .target = target.query,
             .optimize = optimize,
         });
-        buildExample(b, target, lib, .{
-            .filepath = "examples/fatorial_module.zig",
+        buildExample(b, target, .{
+            .filepath = "examples/factorial_module.zig",
             .target = target.query,
             .optimize = optimize,
         });
     }
+
+    const tests = b.option(bool, "Tests", "Build all tests [default: false]") orelse false;
+    if (tests) {
+        buildTests(b, target);
+    }
 }
 
-fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build.Step.Compile, i: BuildInfo) void {
+fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) void {
     const exe = b.addExecutable(.{
         .name = i.filename(),
         .root_source_file = .{ .path = i.filepath },
         .target = target,
         .optimize = i.optimize,
     });
-    exe.root_module.addImport("llvm", &lib.root_module);
+    exe.root_module.addImport("llvm", b.modules.get("llvm").?);
 
     b.installArtifact(exe);
 
@@ -89,7 +91,7 @@ const BuildInfo = struct {
     }
 };
 
-fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build.Step.Compile) void {
+fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
     const llvm_tests = b.addTest(.{
         .root_source_file = .{ .path = "src/llvm.zig" },
         .target = target,
@@ -112,7 +114,7 @@ fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build.S
     }
     clang_tests.linkLibC();
 
-    llvm_tests.root_module.addImport("llvm", &lib.root_module);
+    llvm_tests.root_module.addImport("llvm", b.modules.get("llvm").?);
 
     // TODO: CI build LLVM tests with clang
     // llvm_tests.step.dependOn(&clang_tests.step);
