@@ -1,60 +1,67 @@
 const std = @import("std");
 
-pub fn build(b: *std.Build) void {
-    const target = b.standardTargetOptions(.{});
+pub fn build(b: *std.Build) !void {
+    const target_query: std.Target.Query = .{};
+    const target = b.resolveTargetQuery(target_query);
     const optimize = b.standardOptimizeOption(.{});
 
-    _ = b.addModule("llvm", .{
-        .source_file = .{
-            .path = "src/llvm.zig",
-        },
+    const lib = b.addStaticLibrary(.{
+        .name = "llvm", 
+        .root_source_file = .{.path = "src/llvm-zig.zig"},
+        .target = target,
+        .optimize = optimize
     });
+
+    lib.defineCMacro("_FILE_OFFSET_BITS", "64");
+    lib.defineCMacro("__STDC_CONSTANT_MACROS", null);
+    lib.defineCMacro("__STDC_FORMAT_MACROS", null);
+    lib.defineCMacro("__STDC_LIMIT_MACROS", null);
+    lib.linkSystemLibrary("z");
+    lib.linkLibC();
+    switch (target.result.os.tag) {
+        .linux => lib.linkSystemLibrary("LLVM-17"), // Ubuntu
+        .macos => {
+            lib.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
+            lib.linkSystemLibrary("LLVM");
+        },
+        else => lib.linkSystemLibrary("LLVM"),
+    }
+
+    b.installArtifact(lib);
+
+    _ = try b.modules.put("llvm", &lib.root_module);
+
     _ = b.addModule("clang", .{
-        .source_file = .{
+        .root_source_file = .{
             .path = "src/clang.zig",
         },
     });
 
-    buildTests(b);
-
     const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
-
     if (examples) {
-        buildExample(b, .{
+        buildExample(b, target, .{
             .filepath = "examples/sum_module.zig",
-            .target = target,
+            .target = target.query,
             .optimize = optimize,
         });
-        buildExample(b, .{
-            .filepath = "examples/fatorial_module.zig",
-            .target = target,
+        buildExample(b, target, .{
+            .filepath = "examples/factorial_module.zig",
+            .target = target.query,
             .optimize = optimize,
         });
     }
+
+    buildTests(b, target);
 }
 
-fn buildExample(b: *std.Build, i: BuildInfo) void {
+fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) void {
     const exe = b.addExecutable(.{
         .name = i.filename(),
         .root_source_file = .{ .path = i.filepath },
-        .target = i.target,
+        .target = target,
         .optimize = i.optimize,
     });
-    exe.defineCMacro("_FILE_OFFSET_BITS", "64");
-    exe.defineCMacro("__STDC_CONSTANT_MACROS", null);
-    exe.defineCMacro("__STDC_FORMAT_MACROS", null);
-    exe.defineCMacro("__STDC_LIMIT_MACROS", null);
-    exe.addModule("llvm", b.modules.get("llvm").?);
-    exe.linkSystemLibrary("z");
-    switch (i.target.getOsTag()) {
-        .linux => exe.linkSystemLibrary("LLVM-17"), // Ubuntu
-        .macos => {
-            exe.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
-            exe.linkSystemLibrary("LLVM");
-        },
-        else => exe.linkSystemLibrary("LLVM"),
-    }
-    exe.linkLibC();
+    exe.root_module.addImport("llvm", b.modules.get("llvm").?);
 
     b.installArtifact(exe);
 
@@ -81,20 +88,20 @@ const BuildInfo = struct {
     }
 };
 
-fn buildTests(b: *std.Build) void {
+fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
     const llvm_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/llvm.zig" },
-        .target = .{},
+        .root_source_file = .{ .path = "src/llvm-zig.zig" },
+        .target = target,
         .optimize = .Debug,
         .name = "llvm-tests",
     });
     const clang_tests = b.addTest(.{
         .root_source_file = .{ .path = "src/clang.zig" },
-        .target = .{},
+        .target = target,
         .optimize = .Debug,
         .name = "clang-tests",
     });
-    switch (clang_tests.target.getOsTag()) {
+    switch (target.result.os.tag) {
         .linux => clang_tests.linkSystemLibrary("clang-17"), // Ubuntu
         .macos => {
             clang_tests.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
@@ -104,21 +111,7 @@ fn buildTests(b: *std.Build) void {
     }
     clang_tests.linkLibC();
 
-    llvm_tests.defineCMacro("_FILE_OFFSET_BITS", "64");
-    llvm_tests.defineCMacro("__STDC_CONSTANT_MACROS", null);
-    llvm_tests.defineCMacro("__STDC_FORMAT_MACROS", null);
-    llvm_tests.defineCMacro("__STDC_LIMIT_MACROS", null);
-    llvm_tests.addModule("llvm", b.modules.get("llvm").?);
-    llvm_tests.linkSystemLibrary("z");
-    switch (llvm_tests.target.getOsTag()) {
-        .linux => llvm_tests.linkSystemLibrary("LLVM-17"), // Ubuntu
-        .macos => {
-            llvm_tests.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
-            llvm_tests.linkSystemLibrary("LLVM");
-        },
-        else => llvm_tests.linkSystemLibrary("LLVM"),
-    }
-    llvm_tests.linkLibC();
+    llvm_tests.root_module.addImport("llvm", b.modules.get("llvm").?);
 
     // TODO: CI build LLVM tests with clang
     // llvm_tests.step.dependOn(&clang_tests.step);
