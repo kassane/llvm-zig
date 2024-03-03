@@ -5,28 +5,32 @@ pub fn build(b: *std.Build) void {
     const target = b.resolveTargetQuery(target_query);
     const optimize = b.standardOptimizeOption(.{});
 
-    _ = b.addModule("llvm", .{
-        .root_source_file = .{
-            .path = "src/llvm.zig",
-        },
+    const lib = b.addStaticLibrary(.{
+        .name = "llvm", 
+        .root_source_file = .{.path = "src/llvm.zig"},
+        .target = target,
+        .optimize = optimize
     });
+
+    b.installArtifact(lib);
+
     _ = b.addModule("clang", .{
         .root_source_file = .{
             .path = "src/clang.zig",
         },
     });
 
-    buildTests(b, target);
+    buildTests(b, target, lib);
 
     const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
 
     if (examples) {
-        buildExample(b, target, .{
+        buildExample(b, target, lib, .{
             .filepath = "examples/sum_module.zig",
             .target = target.query,
             .optimize = optimize,
         });
-        buildExample(b, target, .{
+        buildExample(b, target, lib, .{
             .filepath = "examples/fatorial_module.zig",
             .target = target.query,
             .optimize = optimize,
@@ -34,7 +38,7 @@ pub fn build(b: *std.Build) void {
     }
 }
 
-fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) void {
+fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build.Step.Compile, i: BuildInfo) void {
     const exe = b.addExecutable(.{
         .name = i.filename(),
         .root_source_file = .{ .path = i.filepath },
@@ -45,7 +49,7 @@ fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) v
     exe.defineCMacro("__STDC_CONSTANT_MACROS", null);
     exe.defineCMacro("__STDC_FORMAT_MACROS", null);
     exe.defineCMacro("__STDC_LIMIT_MACROS", null);
-    exe.root_module.addImport("llvm", b.modules.get("llvm").?);
+    exe.root_module.addImport("llvm", &lib.root_module);
     exe.linkSystemLibrary("z");
     switch (target.result.os.tag) {
         .linux => exe.linkSystemLibrary("LLVM-17"), // Ubuntu
@@ -82,7 +86,7 @@ const BuildInfo = struct {
     }
 };
 
-fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
+fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build.Step.Compile) void {
     const llvm_tests = b.addTest(.{
         .root_source_file = .{ .path = "src/llvm.zig" },
         .target = target,
@@ -109,7 +113,7 @@ fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
     llvm_tests.defineCMacro("__STDC_CONSTANT_MACROS", null);
     llvm_tests.defineCMacro("__STDC_FORMAT_MACROS", null);
     llvm_tests.defineCMacro("__STDC_LIMIT_MACROS", null);
-    llvm_tests.root_module.addImport("llvm", b.modules.get("llvm").?);
+    llvm_tests.root_module.addImport("llvm", &lib.root_module);
     llvm_tests.linkSystemLibrary("z");
     switch (target.result.os.tag) {
         .linux => llvm_tests.linkSystemLibrary("LLVM-17"), // Ubuntu
