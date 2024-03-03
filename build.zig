@@ -12,6 +12,12 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize
     });
 
+    lib.defineCMacro("_FILE_OFFSET_BITS", "64");
+    lib.defineCMacro("__STDC_CONSTANT_MACROS", null);
+    lib.defineCMacro("__STDC_FORMAT_MACROS", null);
+    lib.defineCMacro("__STDC_LIMIT_MACROS", null);
+    lib.linkSystemLibrary("z");
+    lib.linkLibC();
     switch (target.result.os.tag) {
         .linux => lib.linkSystemLibrary("LLVM-17"), // Ubuntu
         .macos => {
@@ -56,13 +62,7 @@ fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build
         .target = target,
         .optimize = i.optimize,
     });
-    exe.defineCMacro("_FILE_OFFSET_BITS", "64");
-    exe.defineCMacro("__STDC_CONSTANT_MACROS", null);
-    exe.defineCMacro("__STDC_FORMAT_MACROS", null);
-    exe.defineCMacro("__STDC_LIMIT_MACROS", null);
     exe.root_module.addImport("llvm", &lib.root_module);
-    exe.linkSystemLibrary("z");
-    exe.linkLibC();
 
     b.installArtifact(exe);
 
@@ -112,21 +112,7 @@ fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget, lib: *std.Build.S
     }
     clang_tests.linkLibC();
 
-    llvm_tests.defineCMacro("_FILE_OFFSET_BITS", "64");
-    llvm_tests.defineCMacro("__STDC_CONSTANT_MACROS", null);
-    llvm_tests.defineCMacro("__STDC_FORMAT_MACROS", null);
-    llvm_tests.defineCMacro("__STDC_LIMIT_MACROS", null);
     llvm_tests.root_module.addImport("llvm", &lib.root_module);
-    llvm_tests.linkSystemLibrary("z");
-    switch (target.result.os.tag) {
-        .linux => llvm_tests.linkSystemLibrary("LLVM-17"), // Ubuntu
-        .macos => {
-            llvm_tests.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
-            llvm_tests.linkSystemLibrary("LLVM");
-        },
-        else => llvm_tests.linkSystemLibrary("LLVM"),
-    }
-    llvm_tests.linkLibC();
 
     // TODO: CI build LLVM tests with clang
     // llvm_tests.step.dependOn(&clang_tests.step);
