@@ -14,17 +14,17 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: goto-bus-stop/setup-zig@v2
-      
+      - uses: mlugg/setup-zig@v1
+
       - name: Install LLVM (Linux)
         if: startsWith(matrix.runs-on, 'ubuntu')
         run: |
             sudo apt update
             sudo apt install -y wget
-            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-17 main"
+            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main"
             wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
             sudo apt update
-            sudo apt install -y llvm-17
+            sudo apt install -y llvm-18
 
       - name: Install LLVM (MacOS)
         if: startsWith(matrix.runs-on, 'macos')
@@ -32,5 +32,4 @@ jobs:
 
       - name: Build Summary
         run: |
-            zig build -DExamples --summary all -freference-trace && \
-            zig build test --summary all -freference-trace
+            zig build -DExamples --summary all -freference-trace

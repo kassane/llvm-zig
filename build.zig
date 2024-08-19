@@ -1,52 +1,77 @@
 const std = @import("std");
 
 pub fn build(b: *std.Build) !void {
-    const target_query: std.Target.Query = .{};
-    const target = b.resolveTargetQuery(target_query);
+    const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const lib = b.addStaticLibrary(.{
-        .name = "llvm", 
-        .root_source_file = .{.path = "src/llvm-zig.zig"},
+    // LLVM MODULE
+    const llvm_module = b.addModule("llvm", .{
+        .root_source_file = b.path("src/llvm.zig"),
         .target = target,
-        .optimize = optimize
+        .optimize = optimize,
     });
 
-    lib.defineCMacro("_FILE_OFFSET_BITS", "64");
-    lib.defineCMacro("__STDC_CONSTANT_MACROS", null);
-    lib.defineCMacro("__STDC_FORMAT_MACROS", null);
-    lib.defineCMacro("__STDC_LIMIT_MACROS", null);
-    lib.linkSystemLibrary("z");
-    lib.linkLibC();
+    llvm_module.addCMacro("_FILE_OFFSET_BITS", "64");
+    llvm_module.addCMacro("__STDC_CONSTANT_MACROS", "");
+    llvm_module.addCMacro("__STDC_FORMAT_MACROS", "");
+    llvm_module.addCMacro("__STDC_LIMIT_MACROS", "");
+    llvm_module.linkSystemLibrary("z", .{});
+
+    if (target.result.abi != .msvc)
+        llvm_module.link_libc = true
+    else
+        llvm_module.link_libcpp = true;
+
     switch (target.result.os.tag) {
-        .linux => lib.linkSystemLibrary("LLVM-17"), // Ubuntu
+        .linux => llvm_module.linkSystemLibrary("LLVM-18", .{}), // Ubuntu
         .macos => {
-            lib.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
-            lib.linkSystemLibrary("LLVM");
+            llvm_module.addLibraryPath(.{
+                .cwd_relative = "/opt/homebrew/opt/llvm/lib",
+            });
+            llvm_module.linkSystemLibrary("LLVM", .{
+                .use_pkg_config = .no,
+            });
         },
-        else => lib.linkSystemLibrary("LLVM"),
+        else => llvm_module.linkSystemLibrary("LLVM", .{
+            .use_pkg_config = .no,
+        }),
     }
 
-    b.installArtifact(lib);
-
-    _ = try b.modules.put("llvm", &lib.root_module);
-
-    _ = b.addModule("clang", .{
-        .root_source_file = .{
-            .path = "src/clang.zig",
-        },
+    // CLANG MODULE
+    const clang_module = b.addModule("clang", .{
+        .root_source_file = b.path("src/clang.zig"),
+        .target = target,
+        .optimize = optimize,
     });
+    switch (target.result.os.tag) {
+        .linux => clang_module.linkSystemLibrary("clang-18", .{}), // Ubuntu
+        .macos => {
+            clang_module.addLibraryPath(.{
+                .cwd_relative = "/opt/homebrew/opt/llvm/lib",
+            });
+            clang_module.linkSystemLibrary("clang", .{
+                .use_pkg_config = .no,
+            });
+        },
+        else => clang_module.linkSystemLibrary("clang", .{
+            .use_pkg_config = .no,
+        }),
+    }
+    if (target.result.abi != .msvc)
+        clang_module.link_libc = true
+    else
+        clang_module.link_libcpp = true;
 
     const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
     if (examples) {
-        buildExample(b, target, .{
+        buildExample(b, .{
             .filepath = "examples/sum_module.zig",
-            .target = target.query,
+            .target = target,
             .optimize = optimize,
         });
-        buildExample(b, target, .{
+        buildExample(b, .{
             .filepath = "examples/factorial_module.zig",
-            .target = target.query,
+            .target = target,
             .optimize = optimize,
         });
     }
@@ -54,11 +79,11 @@ pub fn build(b: *std.Build) !void {
     buildTests(b, target);
 }
 
-fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) void {
+fn buildExample(b: *std.Build, i: BuildInfo) void {
     const exe = b.addExecutable(.{
         .name = i.filename(),
-        .root_source_file = .{ .path = i.filepath },
-        .target = target,
+        .root_source_file = b.path(i.filepath),
+        .target = i.target,
         .optimize = i.optimize,
     });
     exe.root_module.addImport("llvm", b.modules.get("llvm").?);
@@ -79,7 +104,7 @@ fn buildExample(b: *std.Build, target: std.Build.ResolvedTarget, i: BuildInfo) v
 
 const BuildInfo = struct {
     filepath: []const u8,
-    target: std.zig.CrossTarget,
+    target: std.Build.ResolvedTarget,
     optimize: std.builtin.OptimizeMode,
 
     fn filename(self: BuildInfo) []const u8 {
@@ -90,28 +115,19 @@ const BuildInfo = struct {
 
 fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
     const llvm_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/llvm-zig.zig" },
+        .root_source_file = b.path("src/llvm.zig"),
         .target = target,
         .optimize = .Debug,
         .name = "llvm-tests",
     });
     const clang_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/clang.zig" },
+        .root_source_file = b.path("src/clang.zig"),
         .target = target,
         .optimize = .Debug,
         .name = "clang-tests",
     });
-    switch (target.result.os.tag) {
-        .linux => clang_tests.linkSystemLibrary("clang-17"), // Ubuntu
-        .macos => {
-            clang_tests.addLibraryPath(.{ .path = "/usr/local/opt/llvm/lib" });
-            clang_tests.linkSystemLibrary("clang");
-        },
-        else => clang_tests.linkSystemLibrary("clang"),
-    }
-    clang_tests.linkLibC();
-
     llvm_tests.root_module.addImport("llvm", b.modules.get("llvm").?);
+    clang_tests.root_module.addImport("clang", b.modules.get("clang").?);
 
     // TODO: CI build LLVM tests with clang
     // llvm_tests.step.dependOn(&clang_tests.step);
