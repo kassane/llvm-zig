@@ -23,7 +23,7 @@ pub fn build(b: *std.Build) !void {
         llvm_module.link_libcpp = true;
 
     switch (target.result.os.tag) {
-        .linux => llvm_module.linkSystemLibrary("LLVM-18", .{}), // Ubuntu
+        .linux => llvm_module.linkSystemLibrary("LLVM-19", .{}), // Ubuntu
         .macos => {
             llvm_module.addLibraryPath(.{
                 .cwd_relative = "/opt/homebrew/opt/llvm/lib",
@@ -44,7 +44,7 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
     switch (target.result.os.tag) {
-        .linux => clang_module.linkSystemLibrary("clang-18", .{}), // Ubuntu
+        .linux => clang_module.linkSystemLibrary("clang-19", .{}), // Ubuntu
         .macos => {
             clang_module.addLibraryPath(.{
                 .cwd_relative = "/opt/homebrew/opt/llvm/lib",
@@ -62,7 +62,7 @@ pub fn build(b: *std.Build) !void {
     else
         clang_module.link_libcpp = true;
 
-    const examples = b.option(bool, "Examples", "Build all examples [default: false]") orelse false;
+    const examples = b.option(bool, "examples", "Build all examples [default: false]") orelse false;
     if (examples) {
         buildExample(b, .{
             .filepath = "examples/sum_module.zig",
