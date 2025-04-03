@@ -21,10 +21,10 @@ jobs:
         run: |
             sudo apt update
             sudo apt install -y wget
-            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main"
+            sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-19 main"
             wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
             sudo apt update
-            sudo apt install -y llvm-18
+            sudo apt install -y llvm-19
 
       - name: Install LLVM (MacOS)
         if: startsWith(matrix.runs-on, 'macos')
@@ -32,4 +32,4 @@ jobs:
 
       - name: Build Summary
         run: |
-            zig build -DExamples --summary all -freference-trace
+            zig build -Dexamples --summary all -freference-trace

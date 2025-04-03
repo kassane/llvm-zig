@@ -54,7 +54,7 @@ pub fn main() void {
 
     // Verify the module
     var errMsg: ?[*:0]u8 = null;
-    _ = analysis.LLVMVerifyModule(module, types.LLVMVerifierFailureAction.LLVMPrintMessageAction, &errMsg);
+    _ = analysis.LLVMVerifyModule(module, types.LLVMVerifierFailureAction.LLVMPrintMessageAction, @ptrCast(&errMsg));
     if (errMsg) |msg| {
         @panic(std.mem.span(msg));
         // core.LLVMDisposeMessage(msg);
