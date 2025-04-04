@@ -1,7 +1,7 @@
 # LLVM bindings for Zig
 
 The purpose of this repository is to learn about the [`llvm`][llvm] compiler
-infrastructure and practice some [`ziglang`][zig].
+infrastructure and practice some [`zig`][zig].
 
 ### Requirement
 
@@ -39,3 +39,7 @@ in `build.zig`:
 ### License
 
 This project is licensed under the [MIT](LICENSE) license.
+
+
+[llvm]: https://llvm.org
+[zig]: https://ziglang.org
