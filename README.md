@@ -1,40 +1,41 @@
-# LLVM Kaleidoscope written on Zig
+# LLVM bindings for Zig
 
 The purpose of this repository is to learn about the [`llvm`][llvm] compiler
 infrastructure and practice some [`ziglang`][zig].
 
-To reach the goals set, we follow the official llvm tutorial [`Kaleidoscope:
-Implementing a Language with LLVM`][llvm-tutorial]. This tutorial is written in
-`C++` and structured in multiple chapters, we will try to follow along and
-implement every chapter in zig.
-
 ### Requirement
 
-- [zig v0.13.0](https://ziglang.org/download) or higher.
+- [zig v0.14.0](https://ziglang.org/download) or higher.
 
 
-## References
+### How to use
 
-| Rust | Go | C |
-| --- | --- | --- |
-|[llvm-sys] / [inkwell] | [go-llvm] | LLVM-C |
-| [llvm-kaleidoscope-rs] | [llvm-tuto-kaleidoscope-golang] | [llvm-c-kaleidoscope] |
+Make your project using
+```console
+zig init
+```
+Add this llvm-zig module
+in `build.zig.zon`:
+```console
+zig fetch --save=llvm git+https://github.com/kassane/llvm-zig
+```
+in `build.zig`:
 
-## License
+```zig
+// [...]
+    const llvm_dep = b.dependency("llvm", .{ // <== as declared in build.zig.zon
+        .target = target, // the same as passing `-Dtarget=<...>` to the library's build.zig script
+        .optimize = optimize, // ditto for `-Doptimize=<...>`
+    });
+    const llvm_mod = llvm_dep.module("llvm"); // <== get llvm bindings module
+    // and/or
+    const clang_mod = llvm_dep.module("clang"); // <== get clang bindings module
+    /// your executable config
+    exe.root_module.addImport("llvm", llvm_mod); // <== add llvm module
+    exe.root_module.addImport("clang", clang_mod); // <== add llvm module
+// [...]
+```
+
+### License
 
 This project is licensed under the [MIT](LICENSE) license.
-
-[llvm]: https://llvm.org
-[llvm-sys]: https://gitlab.com/taricorp/llvm-sys.rs
-[go-llvm]: https://github.com/tinygo-org/go-llvm
-[inkwell]: https://github.com/TheDan64/inkwell
-[llvm-kaleidoscope-rs]: https://github.com/johannst/llvm-kaleidoscope-rs
-[llvm-c-kaleidoscope]: https://github.com/benbjohnson/llvm-c-kaleidoscope
-[llvm-tuto-kaleidoscope-golang]: https://github.com/vhiribarren/llvm-tuto-kaleidoscope-golang
-[llvm-tutorial]: https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html
-[llvm-ch1]: https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl01.html
-[llvm-ch2]: https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl02.html
-[llvm-ch3]: https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl03.html
-[llvm-ch4]: https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl04.html
-[llvm-ch5]: https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/LangImpl05.html
-[zig]: https://ziglang.org
