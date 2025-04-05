@@ -1,45 +1,51 @@
+pub const MemoryBuffer = @import("Types/MemoryBuffer.zig");
+pub const Context = @import("Types/Context.zig");
+pub const Module = @import("Types/Module.zig");
+pub const Type = @import("Types/Type.zig");
+pub const Value = @import("Types/Value.zig");
+pub const BasicBlock = @import("Types/BasicBlock.zig");
+pub const Metadata = @import("Types/Metadata.zig");
+pub const NamedMDNode = @import("Types/NamedMDNode.zig");
+pub const Builder = @import("Types/Builder.zig");
+pub const DIBuilder = @import("Types/DIBuilder.zig");
+pub const ModuleProvider = @import("Types/ModuleProvider.zig");
+pub const PassManager = @import("Types/PassManager.zig");
+pub const PassRegistry = @import("Types/PassRegistry.zig");
+pub const Use = @import("Types/Use.zig");
+pub const Attribute = @import("Types/Attribute.zig");
+pub const DiagnosticInfo = @import("Types/DiagnosticInfo.zig");
+pub const JITEventListener = @import("Types/JITEventListener.zig");
+pub const Binary = @import("Types/Binary.zig");
+pub const Error = @import("Types/Error.zig");
+pub const LTOModule = @import("Types/LTOModule.zig");
+pub const LTOInput = @import("Types/LTOInput.zig");
+pub const LTOCodeGenerator = @import("Types/LTOCodeGenerator.zig");
+pub const ThinLTOCodeGenerator = @import("Types/ThinLTOCodeGenerator.zig");
+
 pub const LLVMBool = c_int;
-pub const LLVMOpaqueMemoryBuffer = opaque {};
-pub const LLVMMemoryBufferRef = ?*LLVMOpaqueMemoryBuffer;
-pub const LLVMOpaqueContext = opaque {};
-pub const LLVMContextRef = ?*LLVMOpaqueContext;
-pub const LLVMOpaqueModule = opaque {};
-pub const LLVMModuleRef = ?*LLVMOpaqueModule;
-pub const LLVMOpaqueType = opaque {};
-pub const LLVMTypeRef = ?*LLVMOpaqueType;
-pub const LLVMOpaqueValue = opaque {};
-pub const LLVMValueRef = ?*LLVMOpaqueValue;
-pub const LLVMOpaqueBasicBlock = opaque {};
-pub const LLVMBasicBlockRef = ?*LLVMOpaqueBasicBlock;
-pub const LLVMOpaqueMetadata = opaque {};
-pub const LLVMMetadataRef = ?*LLVMOpaqueMetadata;
-pub const LLVMOpaqueNamedMDNode = opaque {};
-pub const LLVMNamedMDNodeRef = ?*LLVMOpaqueNamedMDNode;
-pub const LLVMOpaqueValueMetadataEntry = opaque {};
-pub const LLVMValueMetadataEntry = LLVMOpaqueValueMetadataEntry;
-pub const LLVMOpaqueBuilder = opaque {};
-pub const LLVMBuilderRef = ?*LLVMOpaqueBuilder;
-pub const LLVMOpaqueDIBuilder = opaque {};
-pub const LLVMDIBuilderRef = ?*LLVMOpaqueDIBuilder;
-pub const LLVMOpaqueModuleProvider = opaque {};
-pub const LLVMModuleProviderRef = ?*LLVMOpaqueModuleProvider;
-pub const LLVMOpaquePassManager = opaque {};
-pub const LLVMPassManagerRef = ?*LLVMOpaquePassManager;
-pub const LLVMOpaquePassRegistry = opaque {};
-pub const LLVMPassRegistryRef = ?*LLVMOpaquePassRegistry;
-pub const LLVMOpaqueUse = opaque {};
-pub const LLVMUseRef = ?*LLVMOpaqueUse;
-pub const LLVMOpaqueAttributeRef = opaque {};
-pub const LLVMAttributeRef = ?*LLVMOpaqueAttributeRef;
-pub const LLVMOpaqueDiagnosticInfo = opaque {};
-pub const LLVMDiagnosticInfoRef = ?*LLVMOpaqueDiagnosticInfo;
+pub const LLVMMemoryBufferRef = ?*MemoryBuffer;
+pub const LLVMContextRef = ?*Context;
+pub const LLVMModuleRef = ?*Module;
+pub const LLVMTypeRef = ?*Type;
+pub const LLVMValueRef = ?*Value;
+pub const LLVMBasicBlockRef = ?*BasicBlock;
+pub const LLVMMetadataRef = ?*Metadata;
+pub const LLVMNamedMDNodeRef = ?*NamedMDNode;
+pub const LLVMValueMetadataEntry = opaque {};
+pub const LLVMBuilderRef = ?*Builder;
+pub const LLVMDIBuilderRef = ?*DIBuilder;
+pub const LLVMModuleProviderRef = ?*ModuleProvider;
+pub const LLVMPassManagerRef = ?*PassManager;
+pub const LLVMPassRegistryRef = ?*PassRegistry;
+pub const LLVMUseRef = ?*Use;
+pub const LLVMAttributeRef = ?*Attribute;
+pub const LLVMDiagnosticInfoRef = ?*DiagnosticInfo;
 pub const LLVMComdat = opaque {};
 pub const LLVMComdatRef = ?*LLVMComdat;
-pub const LLVMOpaqueModuleFlagEntry = opaque {};
-pub const LLVMModuleFlagEntry = LLVMOpaqueModuleFlagEntry;
-pub const LLVMOpaqueJITEventListener = opaque {};
-pub const LLVMJITEventListenerRef = ?*LLVMOpaqueJITEventListener;
-pub const LLVMOpaqueBinary = opaque {};
+pub const ModuleFlagEntry = opaque {};
+pub const LLVMModuleFlagEntry = ModuleFlagEntry;
+pub const LLVMJITEventListenerRef = ?*JITEventListener;
+
 pub const LLVMBinaryType = enum(c_int) {
     LLVMBinaryTypeArchive, // Archive file.
     LLVMBinaryTypeMachOUniversalBinary, // Mach-O Universal Binary file.
@@ -59,7 +65,7 @@ pub const LLVMBinaryType = enum(c_int) {
     LLVMBinaryTypeOffload, // Offloading fatbinary.
 
 };
-pub const LLVMBinaryRef = ?*LLVMOpaqueBinary;
+pub const LLVMBinaryRef = ?*Binary;
 pub const LLVMAttributeIndex = usize;
 pub const LLVMAtomicOrdering = enum(c_int) {
     LLVMAtomicOrderingNotAtomic = 0,
@@ -393,20 +399,20 @@ pub const LLVMThreadLocalMode = enum(c_int) {
 };
 
 // Errors
-pub const LLVMOpaqueError = opaque {};
+pub const LLVMOpaqueError = Error;
 pub const LLVMErrorRef = ?*LLVMOpaqueError;
 pub const LLVMErrorTypeId = ?*const anyopaque;
 
 // LTO
 pub const lto_codegen_model = c_uint;
-pub const LLVMOpaqueLTOModule = opaque {};
+pub const LLVMOpaqueLTOModule = LTOModule;
 pub const lto_module_t = ?*LLVMOpaqueLTOModule;
-pub const LLVMOpaqueLTOCodeGenerator = opaque {};
+pub const LLVMOpaqueLTOCodeGenerator = LTOCodeGenerator;
 pub const lto_code_gen_t = ?*LLVMOpaqueLTOCodeGenerator;
-pub const LLVMOpaqueThinLTOCodeGenerator = opaque {};
+pub const LLVMOpaqueThinLTOCodeGenerator = ThinLTOCodeGenerator;
 pub const thinlto_code_gen_t = ?*LLVMOpaqueThinLTOCodeGenerator;
 pub const lto_codegen_diagnostic_severity_t = c_uint;
-pub const LLVMOpaqueLTOInput = opaque {};
+pub const LLVMOpaqueLTOInput = LTOInput;
 pub const lto_input_t = ?*LLVMOpaqueLTOInput;
 pub const lto_bool_t = bool;
 pub const lto_symbol_attributes = c_uint;
