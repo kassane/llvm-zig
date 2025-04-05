@@ -1,0 +1,26 @@
+const lto = @import("../lto.zig");
+
+pub const create = lto.thinlto_create_codegen;
+pub const dispose = lto.thinlto_codegen_dispose;
+pub const add_module = lto.thinlto_codegen_add_module;
+pub const process = lto.thinlto_codegen_process;
+pub const module_get_num_objects = lto.thinlto_module_get_num_objects;
+pub const module_get_object = lto.thinlto_module_get_object;
+pub const module_get_num_object_files = lto.thinlto_module_get_num_object_files;
+pub const module_get_object_file = lto.thinlto_module_get_object_file;
+pub const set_pic_model = lto.thinlto_codegen_set_pic_model;
+pub const set_savetemps_dir = lto.thinlto_codegen_set_savetemps_dir;
+pub const set_generated_objects_dir = lto.thinlto_set_generated_objects_dir;
+pub const set_cpu = lto.thinlto_codegen_set_cpu;
+pub const disable_codegen = lto.thinlto_codegen_disable_codegen;
+pub const set_codegen_only = lto.thinlto_codegen_set_codegen_only;
+pub const debug_options = lto.thinlto_debug_options;
+pub const add_must_preserve_symbol = lto.thinlto_codegen_add_must_preserve_symbol;
+pub const add_cross_referenced_symbol = lto.thinlto_codegen_add_cross_referenced_symbol;
+pub const set_cache_dir = lto.thinlto_codegen_set_cache_dir;
+pub const set_cache_pruning_interval = lto.thinlto_codegen_set_cache_pruning_interval;
+pub const set_final_cache_size_relative_to_available_space = lto.thinlto_codegen_set_final_cache_size_relative_to_available_space;
+pub const set_cache_entry_expiration = lto.thinlto_codegen_set_cache_entry_expiration;
+pub const set_cache_size_bytes = lto.thinlto_codegen_set_cache_size_bytes;
+pub const set_cache_size_megabytes = lto.thinlto_codegen_set_cache_size_megabytes;
+pub const set_cache_size_files = lto.thinlto_codegen_set_cache_size_files;

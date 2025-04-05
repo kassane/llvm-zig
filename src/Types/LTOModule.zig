@@ -1,0 +1,19 @@
+const lto = @import("../lto.zig");
+
+pub const create = lto.lto_module_create;
+pub const create_from_memory = lto.lto_module_create_from_memory;
+pub const create_from_memory_with_path = lto.lto_module_create_from_memory_with_path;
+pub const create_in_local_context = lto.lto_module_create_in_local_context;
+pub const create_in_codegen_context = lto.lto_module_create_in_codegen_context;
+pub const create_from_fd = lto.lto_module_create_from_fd;
+pub const create_from_fd_at_offset = lto.lto_module_create_from_fd_at_offset;
+pub const dispose = lto.lto_module_dispose;
+pub const get_target_triple = lto.lto_module_get_target_triple;
+pub const set_target_triple = lto.lto_module_set_target_triple;
+pub const get_num_symbols = lto.lto_module_get_num_symbols;
+pub const get_symbol_name = lto.lto_module_get_symbol_name;
+pub const get_symbol_attribute = lto.lto_module_get_symbol_attribute;
+pub const get_linkeropts = lto.lto_module_get_linkeropts;
+pub const get_macho_cputype = lto.lto_module_get_macho_cputype;
+pub const has_ctor_dtor = lto.lto_module_has_ctor_dtor;
+pub const is_thinlto = lto.lto_module_is_thinlto;

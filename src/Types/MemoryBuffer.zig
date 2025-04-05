@@ -1,0 +1,11 @@
+const bitreader = @import("../bitreader.zig");
+const core = @import("../core.zig");
+pub const parseBitcode = bitreader.LLVMParseBitcode;
+pub const parseBitcode2 = bitreader.LLVMParseBitcode2;
+pub const getBitcodeModule = bitreader.LLVMGetBitcodeModule;
+pub const getBitcodeModule2 = bitreader.LLVMGetBitcodeModule2;
+pub const createMemoryBufferWithMemoryRange = core.LLVMCreateMemoryBufferWithMemoryRange;
+pub const createMemoryBufferWithMemoryRangeCopy = core.LLVMCreateMemoryBufferWithMemoryRangeCopy;
+pub const getBufferStart = core.LLVMGetBufferStart;
+pub const getBufferSize = core.LLVMGetBufferSize;
+pub const dispose = core.LLVMDisposeMemoryBuffer;

@@ -1,0 +1,13 @@
+const executionEngine = @import("../executionEngine.zig");
+// pub const addAnalysisPasses = executionEngine.LLVMAddAnalysisPasses;
+const target_machine = @import("../target_machine.zig");
+pub const create = target_machine.LLVMCreateTargetMachine;
+pub const dispose = target_machine.LLVMDisposeTargetMachine;
+pub const getTargetMachineTarget = target_machine.LLVMGetTargetMachineTarget;
+pub const getTargetMachineTriple = target_machine.LLVMGetTargetMachineTriple;
+pub const getTargetMachineCPU = target_machine.LLVMGetTargetMachineCPU;
+pub const getTargetMachineFeatureString = target_machine.LLVMGetTargetMachineFeatureString;
+pub const setTargetMachineAsmVerbosity = target_machine.LLVMSetTargetMachineAsmVerbosity;
+pub const targetMachineEmitToFile = target_machine.LLVMTargetMachineEmitToFile;
+pub const targetMachineEmitToMemoryBuffer = target_machine.LLVMTargetMachineEmitToMemoryBuffer;
+pub const addAnalysisPasses = target_machine.LLVMAddAnalysisPasses;

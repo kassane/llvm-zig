@@ -1,0 +1,21 @@
+
+const target_machine = @import("../target_machine.zig");
+pub const createTargetDataLayout = target_machine.LLVMCreateTargetDataLayout;
+const target = @import("../target.zig");
+pub const create = target.LLVMCreateTargetData;
+pub const dispose = target.LLVMDisposeTargetData;
+pub const copyStringRepOf = target.LLVMCopyStringRepOfTargetData;
+pub const byteOrder = target.LLVMByteOrder;
+pub const pointerSize = target.LLVMPointerSize;
+pub const pointerSizeForAS = target.LLVMPointerSizeForAS;
+pub const intPtrType = target.LLVMIntPtrType;
+pub const intPtrTypeForAS = target.LLVMIntPtrTypeForAS;
+pub const sizeOfTypeInBits = target.LLVMSizeOfTypeInBits;
+pub const storeSizeOfType = target.LLVMStoreSizeOfType;
+pub const aBISizeOfType = target.LLVMABISizeOfType;
+pub const aBIAlignmentOfType = target.LLVMABIAlignmentOfType;
+pub const callFrameAlignmentOfType = target.LLVMCallFrameAlignmentOfType;
+pub const preferredAlignmentOfType = target.LLVMPreferredAlignmentOfType;
+pub const preferredAlignmentOfGlobal = target.LLVMPreferredAlignmentOfGlobal;
+pub const elementAtOffset = target.LLVMElementAtOffset;
+pub const offsetOfElement = target.LLVMOffsetOfElement;
