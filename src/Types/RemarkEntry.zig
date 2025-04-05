@@ -1,0 +1,10 @@
+const remarks = @import("../remarks.zig");
+pub const dispose = remarks.LLVMRemarkEntryDispose;
+pub const getType = remarks.LLVMRemarkEntryGetType;
+pub const getPassName = remarks.LLVMRemarkEntryGetPassName;
+pub const getRemarkName = remarks.LLVMRemarkEntryGetRemarkName;
+pub const getFunctionName = remarks.LLVMRemarkEntryGetFunctionName;
+pub const getDebugLoc = remarks.LLVMRemarkEntryGetDebugLoc;
+pub const getHotness = remarks.LLVMRemarkEntryGetHotness;
+pub const getNumArgs = remarks.LLVMRemarkEntryGetNumArgs;
+pub const getFirstArg = remarks.LLVMRemarkEntryGetFirstArg;

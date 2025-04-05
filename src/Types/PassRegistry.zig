@@ -1,0 +1,13 @@
+const core = @import("../core.zig");
+pub const getGlobal = core.LLVMGetGlobalPassRegistry;
+const initialization = @import("../initialization.zig");
+pub const initializeCore = initialization.LLVMInitializeCore;
+pub const initializeTransformUtils = initialization.LLVMInitializeTransformUtils;
+pub const initializeScalarOpts = initialization.LLVMInitializeScalarOpts;
+pub const initializeVectorization = initialization.LLVMInitializeVectorization;
+pub const initializeInstCombine = initialization.LLVMInitializeInstCombine;
+pub const initializeIPO = initialization.LLVMInitializeIPO;
+pub const initializeAnalysis = initialization.LLVMInitializeAnalysis;
+pub const initializeIPA = initialization.LLVMInitializeIPA;
+pub const initializeCodeGen = initialization.LLVMInitializeCodeGen;
+pub const initializeTarget = initialization.LLVMInitializeTarget;

@@ -1,0 +1,25 @@
+const bitreader = @import("../bitreader.zig");
+const core = @import("../core.zig");
+const debuginfo = @import("../debuginfo.zig");
+const irreader = @import("../irreader.zig");
+
+pub const parseBitcodeIn = bitreader.LLVMParseBitcodeInContext;
+pub const parseBitcodeInContext2 = bitreader.LLVMParseBitcodeInContext2;
+pub const getBitcodeModuleIn = bitreader.LLVMGetBitcodeModuleInContext;
+pub const getBitcodeModuleInContext2 = bitreader.LLVMGetBitcodeModuleInContext2;
+pub const create = core.LLVMContextCreate;
+pub const getGlobal = core.LLVMGetGlobalContext;
+pub const setDiagnosticHandler = core.LLVMContextSetDiagnosticHandler;
+pub const getDiagnosticHandler = core.LLVMContextGetDiagnosticHandler;
+pub const getDiagnostic = core.LLVMContextGetDiagnosticContext;
+pub const setYieldCallback = core.LLVMContextSetYieldCallback;
+pub const shouldDiscardValueNames = core.LLVMContextShouldDiscardValueNames;
+pub const setDiscardValueNames = core.LLVMContextSetDiscardValueNames;
+pub const setOpaquePointers = core.LLVMContextSetOpaquePointers;
+pub const dispose = core.LLVMContextDispose;
+pub const getMDKindIDIn = core.LLVMGetMDKindIDInContext;
+pub const metadataAsValue = core.LLVMMetadataAsValue;
+pub const mDStringIn = core.LLVMMDStringInContext;
+pub const mDNodeIn = core.LLVMMDNodeInContext;
+pub const temporaryMDNode = debuginfo.LLVMTemporaryMDNode;
+pub const parseIRIn = irreader.LLVMParseIRInContext;

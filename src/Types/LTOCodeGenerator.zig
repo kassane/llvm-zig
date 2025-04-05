@@ -1,0 +1,23 @@
+const lto = @import("../lto.zig");
+
+pub const set_diagnostic_handler = lto.lto_codegen_set_diagnostic_handler;
+pub const create = lto.lto_codegen_create;
+pub const create_in_local_context = lto.lto_codegen_create_in_local_context;
+pub const dispose = lto.lto_codegen_dispose;
+pub const add_module = lto.lto_codegen_add_module;
+pub const set_module = lto.lto_codegen_set_module;
+pub const set_debug_model = lto.lto_codegen_set_debug_model;
+pub const set_pic_model = lto.lto_codegen_set_pic_model;
+pub const set_cpu = lto.lto_codegen_set_cpu;
+pub const set_assembler_path = lto.lto_codegen_set_assembler_path;
+pub const set_assembler_args = lto.lto_codegen_set_assembler_args;
+pub const add_must_preserve_symbol = lto.lto_codegen_add_must_preserve_symbol;
+pub const write_merged_modules = lto.lto_codegen_write_merged_modules;
+pub const compile = lto.lto_codegen_compile;
+pub const compile_to_file = lto.lto_codegen_compile_to_file;
+pub const optimize = lto.lto_codegen_optimize;
+pub const compile_optimized = lto.lto_codegen_compile_optimized;
+pub const debug_options = lto.lto_codegen_debug_options;
+pub const debug_options_array = lto.lto_codegen_debug_options_array;
+pub const set_should_internalize = lto.lto_codegen_set_should_internalize;
+pub const set_should_embed_uselists = lto.lto_codegen_set_should_embed_uselists;
