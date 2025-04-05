@@ -1,5 +1,8 @@
 const core = @import("../core.zig");
 const debuginfo = @import("../debuginfo.zig");
+
+pub const mDStringInContext2 = core.LLVMMDStringInContext2;
+pub const mDNodeInContext2 = core.LLVMMDNodeInContext2;
 pub const moduleFlagEntriesGet = core.LLVMModuleFlagEntriesGetMetadata;
 pub const valueMetadataEntriesGet = core.LLVMValueMetadataEntriesGetMetadata;
 pub const dIBuilderCreateCompileUnit = debuginfo.LLVMDIBuilderCreateCompileUnit;

@@ -1,12 +1,14 @@
-
 const core = @import("../core.zig");
+
+pub const createBasicBlockInContext = core.LLVMCreateBasicBlockInContext;
+pub const appendBasicBlockIn = core.LLVMAppendBasicBlockInContext;
+pub const insertBasicBlockIn = core.LLVMInsertBasicBlockInContext;
 pub const basicBlockAsValue = core.LLVMBasicBlockAsValue;
 pub const getBasicBlockName = core.LLVMGetBasicBlockName;
 pub const getBasicBlockParent = core.LLVMGetBasicBlockParent;
 pub const getBasicBlockTerminator = core.LLVMGetBasicBlockTerminator;
 pub const getNext = core.LLVMGetNextBasicBlock;
 pub const getPrevious = core.LLVMGetPreviousBasicBlock;
-pub const createBasicBlockInContext = core.LLVMCreateBasicBlockInContext;
 pub const insert = core.LLVMInsertBasicBlock;
 pub const delete = core.LLVMDeleteBasicBlock;
 pub const removeBasicBlockFromParent = core.LLVMRemoveBasicBlockFromParent;
