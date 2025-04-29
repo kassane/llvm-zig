@@ -37,3 +37,7 @@ jobs:
       - name: Build Summary
         run: |
             zig build -Dexamples --summary all -freference-trace
+   
+      - name: Build Test
+        run: |
+            zig build test --summary all -freference-trace
