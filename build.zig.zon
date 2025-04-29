@@ -1,6 +1,12 @@
 .{
     .name = .llvm_zig,
     .version = "1.0.0",
+    .dependencies = .{
+        .test_runner = .{
+            .url = "git+https://gist.github.com/karlseguin/c6bea5b35e4e8d26af6f81c22cb5d76b#1f317ebc9cd09bc50fd5591d09c34255e15d1d85",
+            .hash = "N-V-__8AANwlAADW-4Yu_sYSZkL_6wcz13gOf9pkOLCjct-F",
+        },
+    },
     .minimum_zig_version = "0.14.0",
     .fingerprint = 0xbf48c74bc4247821,
     .paths = .{
