@@ -101,8 +101,8 @@ pub fn main() void {
     );
 
     if (failed != 0 and errMsg != null){ 
-        const span: [*:0]u8 = std.mem.span(errMsg.?);
-        @panic(std.mem.span(span));
+        const msg: [*:0]u8 = errMsg.?;
+        @panic(std.mem.span(msg));
         // core.LLVMDisposeMessage(msg);
         // std.os.exit(1);
     }
