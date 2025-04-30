@@ -32,7 +32,7 @@ in `build.zig`:
     const clang_mod = llvm_dep.module("clang"); // <== get clang bindings module
     /// your executable config
     exe.root_module.addImport("llvm", llvm_mod); // <== add llvm module
-    exe.root_module.addImport("clang", clang_mod); // <== add llvm module
+    exe.root_module.addImport("clang", clang_mod); // <== add clang module
 // [...]
 ```
 

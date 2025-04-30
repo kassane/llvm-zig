@@ -44,7 +44,7 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
     switch (target.result.os.tag) {
-        .linux => clang_module.linkSystemLibrary("clang", .{}), // Ubuntu
+        .linux => clang_module.linkSystemLibrary("clang-19", .{}), // Ubuntu
         .macos => {
             clang_module.addLibraryPath(.{
                 .cwd_relative = "/opt/homebrew/opt/llvm/lib",
