@@ -111,7 +111,7 @@ pub extern fn LLVMInitializeWebAssemblyDisassembler() void;
 pub extern fn LLVMInitializeX86Disassembler() void;
 pub extern fn LLVMInitializeXCoreDisassembler() void;
 
-pub fn LLVMInitializeAllTargetInfos() callconv(.C) void {
+pub fn LLVMInitializeAllTargetInfos() callconv(.c) void {
     LLVMInitializeAArch64TargetInfo();
     LLVMInitializeAMDGPUTargetInfo();
     LLVMInitializeARMTargetInfo();
@@ -131,7 +131,7 @@ pub fn LLVMInitializeAllTargetInfos() callconv(.C) void {
     LLVMInitializeXCoreTargetInfo();
     LLVMInitializeVETargetInfo();
 }
-pub fn LLVMInitializeAllTargets() callconv(.C) void {
+pub fn LLVMInitializeAllTargets() callconv(.c) void {
     LLVMInitializeAArch64Target();
     LLVMInitializeAMDGPUTarget();
     LLVMInitializeARMTarget();
@@ -151,7 +151,7 @@ pub fn LLVMInitializeAllTargets() callconv(.C) void {
     LLVMInitializeXCoreTarget();
     LLVMInitializeVETarget();
 }
-pub fn LLVMInitializeAllTargetMCs() callconv(.C) void {
+pub fn LLVMInitializeAllTargetMCs() callconv(.c) void {
     LLVMInitializeAArch64TargetMC();
     LLVMInitializeAMDGPUTargetMC();
     LLVMInitializeARMTargetMC();
@@ -171,7 +171,7 @@ pub fn LLVMInitializeAllTargetMCs() callconv(.C) void {
     LLVMInitializeXCoreTargetMC();
     LLVMInitializeVETargetMC();
 }
-pub fn LLVMInitializeAllAsmPrinters() callconv(.C) void {
+pub fn LLVMInitializeAllAsmPrinters() callconv(.c) void {
     LLVMInitializeAArch64AsmPrinter();
     LLVMInitializeAMDGPUAsmPrinter();
     LLVMInitializeARMAsmPrinter();
@@ -191,7 +191,7 @@ pub fn LLVMInitializeAllAsmPrinters() callconv(.C) void {
     LLVMInitializeXCoreAsmPrinter();
     LLVMInitializeVEAsmPrinter();
 }
-pub fn LLVMInitializeAllAsmParsers() callconv(.C) void {
+pub fn LLVMInitializeAllAsmParsers() callconv(.c) void {
     LLVMInitializeAArch64AsmParser();
     LLVMInitializeAMDGPUAsmParser();
     LLVMInitializeARMAsmParser();
@@ -209,7 +209,7 @@ pub fn LLVMInitializeAllAsmParsers() callconv(.C) void {
     LLVMInitializeX86AsmParser();
     LLVMInitializeVEAsmParser();
 }
-pub fn LLVMInitializeAllDisassemblers() callconv(.C) void {
+pub fn LLVMInitializeAllDisassemblers() callconv(.c) void {
     LLVMInitializeAArch64Disassembler();
     LLVMInitializeAMDGPUDisassembler();
     LLVMInitializeARMDisassembler();
@@ -228,21 +228,21 @@ pub fn LLVMInitializeAllDisassemblers() callconv(.C) void {
     LLVMInitializeXCoreDisassembler();
     LLVMInitializeVEDisassembler();
 }
-pub fn LLVMInitializeNativeTarget() callconv(.C) LLVMtype.LLVMBool {
+pub fn LLVMInitializeNativeTarget() callconv(.c) LLVMtype.LLVMBool {
     LLVMInitializeX86TargetInfo();
     LLVMInitializeX86Target();
     LLVMInitializeX86TargetMC();
     return 0;
 }
-pub fn LLVMInitializeNativeAsmParser() callconv(.C) LLVMtype.LLVMBool {
+pub fn LLVMInitializeNativeAsmParser() callconv(.c) LLVMtype.LLVMBool {
     LLVMInitializeX86AsmParser();
     return 0;
 }
-pub fn LLVMInitializeNativeAsmPrinter() callconv(.C) LLVMtype.LLVMBool {
+pub fn LLVMInitializeNativeAsmPrinter() callconv(.c) LLVMtype.LLVMBool {
     LLVMInitializeX86AsmPrinter();
     return 0;
 }
-pub fn LLVMInitializeNativeDisassembler() callconv(.C) LLVMtype.LLVMBool {
+pub fn LLVMInitializeNativeDisassembler() callconv(.c) LLVMtype.LLVMBool {
     LLVMInitializeX86Disassembler();
     return 0;
 }

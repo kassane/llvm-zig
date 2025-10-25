@@ -82,9 +82,11 @@ pub fn build(b: *std.Build) !void {
 fn buildExample(b: *std.Build, i: BuildInfo) void {
     const exe = b.addExecutable(.{
         .name = i.filename(),
-        .root_source_file = b.path(i.filepath),
-        .target = i.target,
-        .optimize = i.optimize,
+        .root_module = b.createModule(.{
+                .root_source_file = b.path(i.filepath),
+                .target = i.target,
+                .optimize = i.optimize,
+            })
     });
     exe.root_module.addImport("llvm", b.modules.get("llvm").?);
 
@@ -119,16 +121,20 @@ fn buildTests(b: *std.Build, target: std.Build.ResolvedTarget) void {
         .mode = .simple,
     };
     const llvm_tests = b.addTest(.{
-        .root_source_file = b.path("src/llvm-bindings.zig"),
-        .target = target,
-        .optimize = .Debug,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/llvm-bindings.zig"),
+            .target = target,
+            .optimize = .Debug,
+        }),
         .name = "llvm-tests",
         .test_runner = custom_test_runner,
     });
     const clang_tests = b.addTest(.{
-        .root_source_file = b.path("src/clang.zig"),
-        .target = target,
-        .optimize = .Debug,
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/clang.zig"),
+            .target = target,
+            .optimize = .Debug,
+        }),
         .name = "clang-tests",
         .test_runner = custom_test_runner,
     });
