@@ -25,11 +25,11 @@ jobs:
             sudo apt update
             wget https://apt.llvm.org/llvm.sh
             chmod +x llvm.sh
-            sudo ./llvm.sh 19
+            sudo ./llvm.sh 21
             rm llvm.sh
 
-            # Install necessary LLVM 19 development packages
-            sudo apt-get install -y libllvm19 llvm-19-dev libclang-19-dev clang-19
+            # Install necessary LLVM 21 development packages
+            sudo apt-get install -y libllvm21 llvm-21-dev libclang-21-dev clang-21
 
       - name: Install LLVM (MacOS)
         if: startsWith(matrix.runs-on, 'macos')

@@ -23,7 +23,7 @@ pub fn build(b: *std.Build) !void {
         llvm_module.link_libcpp = true;
 
     switch (target.result.os.tag) {
-        .linux => llvm_module.linkSystemLibrary("LLVM-19", .{}), // Ubuntu
+        .linux => llvm_module.linkSystemLibrary("LLVM-21", .{}), // Ubuntu
         .macos => {
             llvm_module.addLibraryPath(.{
                 .cwd_relative = "/opt/homebrew/opt/llvm/lib",
@@ -44,7 +44,7 @@ pub fn build(b: *std.Build) !void {
         .optimize = optimize,
     });
     switch (target.result.os.tag) {
-        .linux => clang_module.linkSystemLibrary("clang-19", .{}), // Ubuntu
+        .linux => clang_module.linkSystemLibrary("clang-21", .{}), // Ubuntu
         .macos => {
             clang_module.addLibraryPath(.{
                 .cwd_relative = "/opt/homebrew/opt/llvm/lib",
@@ -83,10 +83,10 @@ fn buildExample(b: *std.Build, i: BuildInfo) void {
     const exe = b.addExecutable(.{
         .name = i.filename(),
         .root_module = b.createModule(.{
-                .root_source_file = b.path(i.filepath),
-                .target = i.target,
-                .optimize = i.optimize,
-            })
+            .root_source_file = b.path(i.filepath),
+            .target = i.target,
+            .optimize = i.optimize,
+        }),
     });
     exe.root_module.addImport("llvm", b.modules.get("llvm").?);
 

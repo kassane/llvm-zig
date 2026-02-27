@@ -5,7 +5,7 @@ infrastructure and practice some [`zig`][zig].
 
 ### Requirement
 
-- [zig v0.14.0](https://ziglang.org/download) or higher.
+- [zig v0.15.2](https://ziglang.org/download) or higher.
 
 
 ### How to use

@@ -3,11 +3,11 @@
     .version = "1.0.0",
     .dependencies = .{
         .test_runner = .{
-            .url = "git+https://gist.github.com/karlseguin/c6bea5b35e4e8d26af6f81c22cb5d76b#eb15512d6ae49663fa9df6c7a9725b20dab43edd",
-            .hash = "N-V-__8AAHMkAAC4CUVVTX0UMBJXtfOubskbF9EJ7X6qAGYR",
+            .url = "git+https://gist.github.com/jonathanderque/c8dbeafc68c1d45e53f629d3c78331a1#5e336b2b778604a70873792584c9aefda62ef212",
+            .hash = "N-V-__8AAKgmAAC6fUM3-DW-w7bj5J9t_35_E19i2B-8t_0a",
         },
     },
-    .minimum_zig_version = "0.15.1",
+    .minimum_zig_version = "0.15.2",
     .fingerprint = 0xbf48c74bc4247821,
     .paths = .{
         "src",
