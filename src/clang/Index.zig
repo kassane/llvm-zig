@@ -765,7 +765,7 @@ pub const CXChildVisit_Break: c_int = 0;
 pub const CXChildVisit_Continue: c_int = 1;
 pub const CXChildVisit_Recurse: c_int = 2;
 pub const CXChildVisitResult = c_uint;
-pub const CXCursorVisitor = ?*const fn (CXCursor, CXCursor, CXClientData) callconv(.C) CXChildVisitResult;
+pub const CXCursorVisitor = ?*const fn (CXCursor, CXCursor, CXClientData) callconv(.c) CXChildVisitResult;
 pub extern fn clang_visitChildren(parent: CXCursor, visitor: CXCursorVisitor, client_data: CXClientData) c_uint;
 pub extern fn clang_getCursorUSR(CXCursor) CXString.CXString;
 pub extern fn clang_constructUSR_ObjCClass(class_name: [*:0]const u8) CXString.CXString;
@@ -908,7 +908,7 @@ pub extern fn clang_disposeTokens(TU: CXTranslationUnit, Tokens: [*c]CXToken, Nu
 pub extern fn clang_getCursorKindSpelling(Kind: CXCursorKind) CXString.CXString;
 pub extern fn clang_getDefinitionSpellingAndExtent(CXCursor, startBuf: [*c][*c]const u8, endBuf: [*c][*c]const u8, startLine: [*c]c_uint, startColumn: [*c]c_uint, endLine: [*c]c_uint, endColumn: [*c]c_uint) void;
 pub extern fn clang_enableStackTraces() void;
-pub extern fn clang_executeOnThread(@"fn": ?*const fn (?*anyopaque) callconv(.C) void, user_data: ?*anyopaque, stack_size: c_uint) void;
+pub extern fn clang_executeOnThread(@"fn": ?*const fn (?*anyopaque) callconv(.c) void, user_data: ?*anyopaque, stack_size: c_uint) void;
 pub const CXCompletionString = ?*anyopaque;
 pub const CXCompletionResult = extern struct {
     CursorKind: CXCursorKind = std.mem.zeroes(CXCursorKind),
@@ -997,7 +997,7 @@ pub extern fn clang_codeCompleteGetContainerUSR(Results: [*c]CXCodeCompleteResul
 pub extern fn clang_codeCompleteGetObjCSelector(Results: [*c]CXCodeCompleteResults) CXString.CXString;
 pub extern fn clang_getClangVersion() CXString.CXString;
 pub extern fn clang_toggleCrashRecovery(isEnabled: c_uint) void;
-pub const CXInclusionVisitor = ?*const fn (CXFile.CXFile, [*c]CXSourceLocation.CXSourceLocation, c_uint, CXClientData) callconv(.C) void;
+pub const CXInclusionVisitor = ?*const fn (CXFile.CXFile, [*c]CXSourceLocation.CXSourceLocation, c_uint, CXClientData) callconv(.c) void;
 pub extern fn clang_getInclusions(tu: CXTranslationUnit, visitor: CXInclusionVisitor, client_data: CXClientData) void;
 pub const CXEval_Int: c_int = 1;
 pub const CXEval_Float: c_int = 2;
@@ -1028,7 +1028,7 @@ pub const CXVisit_Continue: c_int = 1;
 pub const CXVisitorResult = c_uint;
 pub const CXCursorAndRangeVisitor = extern struct {
     context: ?*anyopaque = std.mem.zeroes(?*anyopaque),
-    visit: ?*const fn (?*anyopaque, CXCursor, CXSourceLocation.CXSourceRange) callconv(.C) CXVisitorResult = std.mem.zeroes(?*const fn (?*anyopaque, CXCursor, CXSourceLocation.CXSourceRange) callconv(.C) CXVisitorResult),
+    visit: ?*const fn (?*anyopaque, CXCursor, CXSourceLocation.CXSourceRange) callconv(.c) CXVisitorResult = std.mem.zeroes(?*const fn (?*anyopaque, CXCursor, CXSourceLocation.CXSourceRange) callconv(.c) CXVisitorResult),
 };
 pub const CXResult = enum(c_uint) {
     CXResult_Success = 0,
@@ -1213,14 +1213,14 @@ pub const CXIdxEntityRefInfo = extern struct {
     role: CXSymbolRole = std.mem.zeroes(CXSymbolRole),
 };
 pub const IndexerCallbacks = extern struct {
-    abortQuery: ?*const fn (CXClientData, ?*anyopaque) callconv(.C) c_int = std.mem.zeroes(?*const fn (CXClientData, ?*anyopaque) callconv(.C) c_int),
-    diagnostic: ?*const fn (CXClientData, CXDiagnostic.CXDiagnosticSet, ?*anyopaque) callconv(.C) void = std.mem.zeroes(?*const fn (CXClientData, CXDiagnostic.CXDiagnosticSet, ?*anyopaque) callconv(.C) void),
-    enteredMainFile: ?*const fn (CXClientData, CXFile.CXFile, ?*anyopaque) callconv(.C) CXIdxClientFile = std.mem.zeroes(?*const fn (CXClientData, CXFile.CXFile, ?*anyopaque) callconv(.C) CXIdxClientFile),
-    ppIncludedFile: ?*const fn (CXClientData, [*c]const CXIdxIncludedFileInfo) callconv(.C) CXIdxClientFile = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxIncludedFileInfo) callconv(.C) CXIdxClientFile),
-    importedASTFile: ?*const fn (CXClientData, [*c]const CXIdxImportedASTFileInfo) callconv(.C) CXIdxClientASTFile = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxImportedASTFileInfo) callconv(.C) CXIdxClientASTFile),
-    startedTranslationUnit: ?*const fn (CXClientData, ?*anyopaque) callconv(.C) CXIdxClientContainer = std.mem.zeroes(?*const fn (CXClientData, ?*anyopaque) callconv(.C) CXIdxClientContainer),
-    indexDeclaration: ?*const fn (CXClientData, [*c]const CXIdxDeclInfo) callconv(.C) void = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxDeclInfo) callconv(.C) void),
-    indexEntityReference: ?*const fn (CXClientData, [*c]const CXIdxEntityRefInfo) callconv(.C) void = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxEntityRefInfo) callconv(.C) void),
+    abortQuery: ?*const fn (CXClientData, ?*anyopaque) callconv(.c) c_int = std.mem.zeroes(?*const fn (CXClientData, ?*anyopaque) callconv(.c) c_int),
+    diagnostic: ?*const fn (CXClientData, CXDiagnostic.CXDiagnosticSet, ?*anyopaque) callconv(.c) void = std.mem.zeroes(?*const fn (CXClientData, CXDiagnostic.CXDiagnosticSet, ?*anyopaque) callconv(.c) void),
+    enteredMainFile: ?*const fn (CXClientData, CXFile.CXFile, ?*anyopaque) callconv(.c) CXIdxClientFile = std.mem.zeroes(?*const fn (CXClientData, CXFile.CXFile, ?*anyopaque) callconv(.c) CXIdxClientFile),
+    ppIncludedFile: ?*const fn (CXClientData, [*c]const CXIdxIncludedFileInfo) callconv(.c) CXIdxClientFile = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxIncludedFileInfo) callconv(.c) CXIdxClientFile),
+    importedASTFile: ?*const fn (CXClientData, [*c]const CXIdxImportedASTFileInfo) callconv(.c) CXIdxClientASTFile = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxImportedASTFileInfo) callconv(.c) CXIdxClientASTFile),
+    startedTranslationUnit: ?*const fn (CXClientData, ?*anyopaque) callconv(.c) CXIdxClientContainer = std.mem.zeroes(?*const fn (CXClientData, ?*anyopaque) callconv(.c) CXIdxClientContainer),
+    indexDeclaration: ?*const fn (CXClientData, [*c]const CXIdxDeclInfo) callconv(.c) void = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxDeclInfo) callconv(.c) void),
+    indexEntityReference: ?*const fn (CXClientData, [*c]const CXIdxEntityRefInfo) callconv(.c) void = std.mem.zeroes(?*const fn (CXClientData, [*c]const CXIdxEntityRefInfo) callconv(.c) void),
 };
 pub extern fn clang_index_isEntityObjCContainerKind(CXIdxEntityKind) c_int;
 pub extern fn clang_index_getObjCContainerDeclInfo([*c]const CXIdxDeclInfo) [*c]const CXIdxObjCContainerDeclInfo;
@@ -1249,7 +1249,7 @@ pub extern fn clang_indexSourceFileFullArgv(CXIndexAction, client_data: CXClient
 pub extern fn clang_indexTranslationUnit(CXIndexAction, client_data: CXClientData, index_callbacks: [*c]IndexerCallbacks, index_callbacks_size: c_uint, index_options: c_uint, CXTranslationUnit) c_int;
 pub extern fn clang_indexLoc_getFileLocation(loc: CXIdxLoc, indexFile: [*c]CXIdxClientFile, file: [*c]CXFile.CXFile, line: [*c]c_uint, column: [*c]c_uint, offset: [*c]c_uint) void;
 pub extern fn clang_indexLoc_getCXSourceLocation(loc: CXIdxLoc) CXSourceLocation.CXSourceLocation;
-pub const CXFieldVisitor = ?*const fn (CXCursor, CXClientData) callconv(.C) CXVisitorResult;
+pub const CXFieldVisitor = ?*const fn (CXCursor, CXClientData) callconv(.c) CXVisitorResult;
 pub extern fn clang_Type_visitFields(T: CXType, visitor: CXFieldVisitor, client_data: CXClientData) c_uint;
 
 pub const CINDEX_VERSION_MAJOR = @as(c_int, 0);

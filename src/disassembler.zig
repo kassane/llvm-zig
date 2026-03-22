@@ -1,6 +1,6 @@
 const LLVMtype = @import("types.zig");
 
-pub const LLVMOpInfoCallback = ?*const fn (?*anyopaque, u64, u64, u64, u64, c_int, ?*anyopaque) callconv(.C) c_int;
+pub const LLVMOpInfoCallback = ?*const fn (?*anyopaque, u64, u64, u64, u64, c_int, ?*anyopaque) callconv(.c) c_int;
 pub const LLVMOpInfoSymbol1 = extern struct {
     Present: u64,
     Name: [*:0]const u8,
@@ -12,7 +12,7 @@ pub const LLVMOpInfo1 = extern struct {
     Value: u64,
     VariantKind: u64,
 };
-pub const LLVMSymbolLookupCallback = ?*const fn (?*anyopaque, u64, [*c]u64, u64, [*c][*c]const u8) callconv(.C) [*:0]const u8;
+pub const LLVMSymbolLookupCallback = ?*const fn (?*anyopaque, u64, [*c]u64, u64, [*c][*c]const u8) callconv(.c) [*:0]const u8;
 pub extern fn LLVMCreateDisasm(TripleName: [*:0]const u8, DisInfo: ?*anyopaque, TagType: c_int, GetOpInfo: LLVMOpInfoCallback, SymbolLookUp: LLVMSymbolLookupCallback) LLVMtype.LLVMDisasmContextRef;
 pub extern fn LLVMCreateDisasmCPU(Triple: [*:0]const u8, CPU: [*:0]const u8, DisInfo: ?*anyopaque, TagType: c_int, GetOpInfo: LLVMOpInfoCallback, SymbolLookUp: LLVMSymbolLookupCallback) LLVMtype.LLVMDisasmContextRef;
 pub extern fn LLVMCreateDisasmCPUFeatures(Triple: [*:0]const u8, CPU: [*:0]const u8, Features: [*:0]const u8, DisInfo: ?*anyopaque, TagType: c_int, GetOpInfo: LLVMOpInfoCallback, SymbolLookUp: LLVMSymbolLookupCallback) LLVMtype.LLVMDisasmContextRef;

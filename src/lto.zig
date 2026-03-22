@@ -19,12 +19,14 @@ pub extern fn lto_module_get_target_triple(mod: LLVMtype.lto_module_t) [*c]const
 pub extern fn lto_module_set_target_triple(mod: LLVMtype.lto_module_t, triple: [*c]const u8) void;
 pub extern fn lto_module_get_num_symbols(mod: LLVMtype.lto_module_t) c_uint;
 pub extern fn lto_module_get_symbol_name(mod: LLVMtype.lto_module_t, index: c_uint) [*c]const u8;
+pub extern fn lto_module_get_num_asm_undef_symbols(mod: LLVMtype.lto_module_t) c_uint;
+pub extern fn lto_module_get_asm_undef_symbol_name(mod: LLVMtype.lto_module_t, index: c_uint) [*c]const u8;
 pub extern fn lto_module_get_symbol_attribute(mod: LLVMtype.lto_module_t, index: c_uint) LLVMtype.lto_symbol_attributes;
 pub extern fn lto_module_get_linkeropts(mod: LLVMtype.lto_module_t) [*c]const u8;
 pub extern fn lto_module_get_macho_cputype(mod: LLVMtype.lto_module_t, out_cputype: [*c]c_uint, out_cpusubtype: [*c]c_uint) LLVMtype.lto_bool_t;
 pub extern fn lto_module_has_ctor_dtor(mod: LLVMtype.lto_module_t) LLVMtype.lto_bool_t;
 
-pub const lto_diagnostic_handler_t = ?*const fn (LLVMtype.lto_codegen_diagnostic_severity_t, [*c]const u8, ?*anyopaque) callconv(.C) void;
+pub const lto_diagnostic_handler_t = ?*const fn (LLVMtype.lto_codegen_diagnostic_severity_t, [*c]const u8, ?*anyopaque) callconv(.c) void;
 pub extern fn lto_codegen_set_diagnostic_handler(LLVMtype.lto_code_gen_t, lto_diagnostic_handler_t, ?*anyopaque) void;
 pub extern fn lto_codegen_create() LLVMtype.lto_code_gen_t;
 pub extern fn lto_codegen_create_in_local_context() LLVMtype.lto_code_gen_t;

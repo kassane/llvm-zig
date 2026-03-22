@@ -41,10 +41,10 @@ pub extern fn LLVMGetPointerToGlobal(EE: LLVMtype.LLVMExecutionEngineRef, Global
 pub extern fn LLVMGetGlobalValueAddress(EE: LLVMtype.LLVMExecutionEngineRef, Name: [*c]const u8) u64;
 pub extern fn LLVMGetFunctionAddress(EE: LLVMtype.LLVMExecutionEngineRef, Name: [*c]const u8) u64;
 pub extern fn LLVMExecutionEngineGetErrMsg(EE: LLVMtype.LLVMExecutionEngineRef, OutError: [*c][*c]u8) LLVMtype.LLVMBool;
-pub const LLVMMemoryManagerAllocateCodeSectionCallback = ?*const fn (?*anyopaque, usize, c_uint, c_uint, [*c]const u8) callconv(.C) [*c]u8;
-pub const LLVMMemoryManagerAllocateDataSectionCallback = ?*const fn (?*anyopaque, usize, c_uint, c_uint, [*c]const u8, LLVMtype.LLVMBool) callconv(.C) [*c]u8;
-pub const LLVMMemoryManagerFinalizeMemoryCallback = ?*const fn (?*anyopaque, [*c][*c]u8) callconv(.C) LLVMtype.LLVMBool;
-pub const LLVMMemoryManagerDestroyCallback = ?*const fn (?*anyopaque) callconv(.C) void;
+pub const LLVMMemoryManagerAllocateCodeSectionCallback = ?*const fn (?*anyopaque, usize, c_uint, c_uint, [*c]const u8) callconv(.c) [*c]u8;
+pub const LLVMMemoryManagerAllocateDataSectionCallback = ?*const fn (?*anyopaque, usize, c_uint, c_uint, [*c]const u8, LLVMtype.LLVMBool) callconv(.c) [*c]u8;
+pub const LLVMMemoryManagerFinalizeMemoryCallback = ?*const fn (?*anyopaque, [*c][*c]u8) callconv(.c) LLVMtype.LLVMBool;
+pub const LLVMMemoryManagerDestroyCallback = ?*const fn (?*anyopaque) callconv(.c) void;
 pub extern fn LLVMCreateSimpleMCJITMemoryManager(Opaque: ?*anyopaque, AllocateCodeSection: LLVMMemoryManagerAllocateCodeSectionCallback, AllocateDataSection: LLVMMemoryManagerAllocateDataSectionCallback, FinalizeMemory: LLVMMemoryManagerFinalizeMemoryCallback, Destroy: LLVMMemoryManagerDestroyCallback) LLVMtype.LLVMMCJITMemoryManagerRef;
 pub extern fn LLVMDisposeMCJITMemoryManager(MM: LLVMtype.LLVMMCJITMemoryManagerRef) void;
 pub extern fn LLVMCreateGDBRegistrationListener() LLVMtype.LLVMJITEventListenerRef;

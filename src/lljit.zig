@@ -1,7 +1,7 @@
 const LLVMtype = @import("types.zig");
 const Orc = @import("orc.zig");
 
-pub const LLVMOrcLLJITBuilderObjectLinkingLayerCreatorFunction = ?*const fn (?*anyopaque, Orc.LLVMOrcExecutionSessionRef, [*c]const u8) callconv(.C) Orc.LLVMOrcObjectLayerRef;
+pub const LLVMOrcLLJITBuilderObjectLinkingLayerCreatorFunction = ?*const fn (?*anyopaque, Orc.LLVMOrcExecutionSessionRef, [*c]const u8) callconv(.c) Orc.LLVMOrcObjectLayerRef;
 pub extern fn LLVMOrcCreateLLJITBuilder() LLVMtype.LLVMOrcLLJITBuilderRef;
 pub extern fn LLVMOrcDisposeLLJITBuilder(Builder: LLVMtype.LLVMOrcLLJITBuilderRef) void;
 pub extern fn LLVMOrcLLJITBuilderSetJITTargetMachineBuilder(Builder: LLVMtype.LLVMOrcLLJITBuilderRef, JTMB: Orc.LLVMOrcJITTargetMachineBuilderRef) void;

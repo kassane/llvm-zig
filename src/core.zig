@@ -8,8 +8,8 @@ pub extern fn LLVMGetVersion(Major: [*c]c_uint, Minor: [*c]c_uint, Patch: [*c]c_
 pub extern fn LLVMCreateMessage(Message: [*:0]const u8) [*c]u8;
 pub extern fn LLVMDisposeMessage(Message: [*c]u8) void;
 
-pub const LLVMDiagnosticHandler = ?*const fn (LLVMtype.LLVMDiagnosticInfoRef, ?*anyopaque) callconv(.C) void;
-pub const LLVMYieldCallback = ?*const fn (LLVMtype.LLVMContextRef, ?*anyopaque) callconv(.C) void;
+pub const LLVMDiagnosticHandler = ?*const fn (LLVMtype.LLVMDiagnosticInfoRef, ?*anyopaque) callconv(.c) void;
+pub const LLVMYieldCallback = ?*const fn (LLVMtype.LLVMContextRef, ?*anyopaque) callconv(.c) void;
 pub extern fn LLVMContextCreate() LLVMtype.LLVMContextRef;
 pub extern fn LLVMGetGlobalContext() LLVMtype.LLVMContextRef;
 pub extern fn LLVMContextSetDiagnosticHandler(C: LLVMtype.LLVMContextRef, Handler: LLVMDiagnosticHandler, DiagnosticContext: ?*anyopaque) void;
@@ -43,6 +43,8 @@ pub extern fn LLVMModuleCreateWithNameInContext(ModuleID: [*:0]const u8, C: LLVM
 pub extern fn LLVMCloneModule(M: LLVMtype.LLVMModuleRef) LLVMtype.LLVMModuleRef;
 pub extern fn LLVMDisposeModule(M: LLVMtype.LLVMModuleRef) void;
 pub extern fn LLVMGetModuleIdentifier(M: LLVMtype.LLVMModuleRef, Len: [*c]usize) [*:0]const u8;
+pub extern fn LLVMIsNewDbgInfoFormat(M: LLVMtype.LLVMModuleRef) LLVMtype.LLVMBool;
+pub extern fn LLVMSetIsNewDbgInfoFormat(M: LLVMtype.LLVMModuleRef, UseNewFormat: LLVMtype.LLVMBool) void;
 pub extern fn LLVMSetModuleIdentifier(M: LLVMtype.LLVMModuleRef, Ident: [*:0]const u8, Len: usize) void;
 pub extern fn LLVMGetSourceFileName(M: LLVMtype.LLVMModuleRef, Len: [*c]usize) [*:0]const u8;
 pub extern fn LLVMSetSourceFileName(M: LLVMtype.LLVMModuleRef, Name: [*:0]const u8, Len: usize) void;

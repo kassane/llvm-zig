@@ -1,4 +1,5 @@
 const LLVMtype = @import("types.zig");
+const LLVMDbgRecordRef = LLVMtype.LLVMDbgRecordRef;
 
 pub extern fn LLVMDebugMetadataVersion() c_uint;
 pub extern fn LLVMGetModuleDebugMetadataVersion(Module: LLVMtype.LLVMModuleRef) c_uint;
@@ -33,9 +34,14 @@ pub extern fn LLVMDIBuilderCreateSubroutineType(Builder: LLVMtype.LLVMDIBuilderR
 pub extern fn LLVMDIBuilderCreateMacro(Builder: LLVMtype.LLVMDIBuilderRef, ParentMacroFile: LLVMtype.LLVMMetadataRef, Line: c_uint, RecordType: LLVMtype.LLVMDWARFMacinfoRecordType, Name: [*:0]const u8, NameLen: usize, Value: [*:0]const u8, ValueLen: usize) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateTempMacroFile(Builder: LLVMtype.LLVMDIBuilderRef, ParentMacroFile: LLVMtype.LLVMMetadataRef, Line: c_uint, File: LLVMtype.LLVMMetadataRef) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateEnumerator(Builder: LLVMtype.LLVMDIBuilderRef, Name: [*:0]const u8, NameLen: usize, Value: i64, IsUnsigned: LLVMtype.LLVMBool) LLVMtype.LLVMMetadataRef;
+pub extern fn LLVMDIBuilderCreateEnumeratorOfArbitraryPrecision(Builder: LLVMtype.LLVMDIBuilderRef, Name: [*:0]const u8, NameLen: usize, SizeInBits: u64, Words: [*c]const u64, IsUnsigned: LLVMtype.LLVMBool) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateEnumerationType(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, File: LLVMtype.LLVMMetadataRef, LineNumber: c_uint, SizeInBits: u64, AlignInBits: u32, Elements: [*c]LLVMtype.LLVMMetadataRef, NumElements: c_uint, ClassTy: LLVMtype.LLVMMetadataRef) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateUnionType(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, File: LLVMtype.LLVMMetadataRef, LineNumber: c_uint, SizeInBits: u64, AlignInBits: u32, Flags: LLVMtype.LLVMDIFlags, Elements: [*c]LLVMtype.LLVMMetadataRef, NumElements: c_uint, RunTimeLang: c_uint, UniqueId: [*:0]const u8, UniqueIdLen: usize) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateArrayType(Builder: LLVMtype.LLVMDIBuilderRef, Size: u64, AlignInBits: u32, Ty: LLVMtype.LLVMMetadataRef, Subscripts: [*c]LLVMtype.LLVMMetadataRef, NumSubscripts: c_uint) LLVMtype.LLVMMetadataRef;
+pub extern fn LLVMDIBuilderCreateSetType(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, File: LLVMtype.LLVMMetadataRef, LineNumber: c_uint, SizeInBits: u64, AlignInBits: u32, BaseTy: LLVMtype.LLVMMetadataRef) LLVMtype.LLVMMetadataRef;
+pub extern fn LLVMDIBuilderCreateSubrangeType(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, LineNo: c_uint, File: LLVMtype.LLVMMetadataRef, SizeInBits: u64, AlignInBits: u32, Flags: LLVMtype.LLVMDIFlags, BaseTy: LLVMtype.LLVMMetadataRef, LowerBound: LLVMtype.LLVMMetadataRef, UpperBound: LLVMtype.LLVMMetadataRef, Stride: LLVMtype.LLVMMetadataRef, Bias: LLVMtype.LLVMMetadataRef) LLVMtype.LLVMMetadataRef;
+pub extern fn LLVMDIBuilderCreateDynamicArrayType(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, LineNo: c_uint, File: LLVMtype.LLVMMetadataRef, Size: u64, AlignInBits: u32, Ty: LLVMtype.LLVMMetadataRef, Subscripts: [*c]LLVMtype.LLVMMetadataRef, NumSubscripts: c_uint, DataLocation: LLVMtype.LLVMMetadataRef, Associated: LLVMtype.LLVMMetadataRef, Allocated: LLVMtype.LLVMMetadataRef, Rank: LLVMtype.LLVMMetadataRef, BitStride: LLVMtype.LLVMMetadataRef) LLVMtype.LLVMMetadataRef;
+pub extern fn LLVMReplaceArrays(Builder: LLVMtype.LLVMDIBuilderRef, T: [*c]LLVMtype.LLVMMetadataRef, Elements: [*c]LLVMtype.LLVMMetadataRef, NumElements: c_uint) void;
 pub extern fn LLVMDIBuilderCreateVectorType(Builder: LLVMtype.LLVMDIBuilderRef, Size: u64, AlignInBits: u32, Ty: LLVMtype.LLVMMetadataRef, Subscripts: [*c]LLVMtype.LLVMMetadataRef, NumSubscripts: c_uint) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateUnspecifiedType(Builder: LLVMtype.LLVMDIBuilderRef, Name: [*:0]const u8, NameLen: usize) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateBasicType(Builder: LLVMtype.LLVMDIBuilderRef, Name: [*:0]const u8, NameLen: usize, SizeInBits: u64, Encoding: LLVMtype.LLVMDWARFTypeEncoding, Flags: LLVMtype.LLVMDIFlags) LLVMtype.LLVMMetadataRef;
@@ -77,15 +83,28 @@ pub extern fn LLVMTemporaryMDNode(Ctx: LLVMtype.LLVMContextRef, Data: [*c]LLVMty
 pub extern fn LLVMDisposeTemporaryMDNode(TempNode: LLVMtype.LLVMMetadataRef) void;
 pub extern fn LLVMMetadataReplaceAllUsesWith(TempTargetMetadata: LLVMtype.LLVMMetadataRef, Replacement: LLVMtype.LLVMMetadataRef) void;
 pub extern fn LLVMDIBuilderCreateTempGlobalVariableFwdDecl(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, Linkage: [*:0]const u8, LnkLen: usize, File: LLVMtype.LLVMMetadataRef, LineNo: c_uint, Ty: LLVMtype.LLVMMetadataRef, LocalToUnit: LLVMtype.LLVMBool, Decl: LLVMtype.LLVMMetadataRef, AlignInBits: u32) LLVMtype.LLVMMetadataRef;
-pub extern fn LLVMDIBuilderInsertDeclareBefore(Builder: LLVMtype.LLVMDIBuilderRef, Storage: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Instr: LLVMtype.LLVMValueRef) LLVMtype.LLVMValueRef;
-pub extern fn LLVMDIBuilderInsertDeclareAtEnd(Builder: LLVMtype.LLVMDIBuilderRef, Storage: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Block: LLVMtype.LLVMBasicBlockRef) LLVMtype.LLVMValueRef;
-pub extern fn LLVMDIBuilderInsertDbgValueBefore(Builder: LLVMtype.LLVMDIBuilderRef, Val: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Instr: LLVMtype.LLVMValueRef) LLVMtype.LLVMValueRef;
-pub extern fn LLVMDIBuilderInsertDbgValueAtEnd(Builder: LLVMtype.LLVMDIBuilderRef, Val: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Block: LLVMtype.LLVMBasicBlockRef) LLVMtype.LLVMValueRef;
+/// Insert a Declare DbgRecord before the given instruction (new debug format).
+pub extern fn LLVMDIBuilderInsertDeclareRecordBefore(Builder: LLVMtype.LLVMDIBuilderRef, Storage: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Instr: LLVMtype.LLVMValueRef) LLVMDbgRecordRef;
+/// Insert a Declare DbgRecord at end of basic block (new debug format).
+pub extern fn LLVMDIBuilderInsertDeclareRecordAtEnd(Builder: LLVMtype.LLVMDIBuilderRef, Storage: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Block: LLVMtype.LLVMBasicBlockRef) LLVMDbgRecordRef;
+/// Insert a new debug value record before the given instruction (new debug format).
+pub extern fn LLVMDIBuilderInsertDbgValueRecordBefore(Builder: LLVMtype.LLVMDIBuilderRef, Val: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Instr: LLVMtype.LLVMValueRef) LLVMDbgRecordRef;
+/// Insert a new debug value record at end of basic block (new debug format).
+pub extern fn LLVMDIBuilderInsertDbgValueRecordAtEnd(Builder: LLVMtype.LLVMDIBuilderRef, Val: LLVMtype.LLVMValueRef, VarInfo: LLVMtype.LLVMMetadataRef, Expr: LLVMtype.LLVMMetadataRef, DebugLoc: LLVMtype.LLVMMetadataRef, Block: LLVMtype.LLVMBasicBlockRef) LLVMDbgRecordRef;
 pub extern fn LLVMDIBuilderCreateAutoVariable(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, File: LLVMtype.LLVMMetadataRef, LineNo: c_uint, Ty: LLVMtype.LLVMMetadataRef, AlwaysPreserve: LLVMtype.LLVMBool, Flags: LLVMtype.LLVMDIFlags, AlignInBits: u32) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMDIBuilderCreateParameterVariable(Builder: LLVMtype.LLVMDIBuilderRef, Scope: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, ArgNo: c_uint, File: LLVMtype.LLVMMetadataRef, LineNo: c_uint, Ty: LLVMtype.LLVMMetadataRef, AlwaysPreserve: LLVMtype.LLVMBool, Flags: LLVMtype.LLVMDIFlags) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMGetSubprogram(Func: LLVMtype.LLVMValueRef) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMSetSubprogram(Func: LLVMtype.LLVMValueRef, SP: LLVMtype.LLVMMetadataRef) void;
 pub extern fn LLVMDISubprogramGetLine(Subprogram: LLVMtype.LLVMMetadataRef) c_uint;
+pub extern fn LLVMDISubprogramReplaceType(Subprogram: LLVMtype.LLVMMetadataRef, SubroutineType: LLVMtype.LLVMMetadataRef) void;
 pub extern fn LLVMInstructionGetDebugLoc(Inst: LLVMtype.LLVMValueRef) LLVMtype.LLVMMetadataRef;
 pub extern fn LLVMInstructionSetDebugLoc(Inst: LLVMtype.LLVMValueRef, Loc: LLVMtype.LLVMMetadataRef) void;
+/// Get the dwarf::Tag of a DINode.
+pub extern fn LLVMGetDINodeTag(MD: LLVMtype.LLVMMetadataRef) u16;
+/// Create a new descriptor for a label.
+pub extern fn LLVMDIBuilderCreateLabel(Builder: LLVMtype.LLVMDIBuilderRef, Context: LLVMtype.LLVMMetadataRef, Name: [*:0]const u8, NameLen: usize, File: LLVMtype.LLVMMetadataRef, LineNo: c_uint, AlwaysPreserve: LLVMtype.LLVMBool) LLVMtype.LLVMMetadataRef;
+/// Insert a new llvm.dbg.label record before the given instruction (new debug format).
+pub extern fn LLVMDIBuilderInsertLabelBefore(Builder: LLVMtype.LLVMDIBuilderRef, LabelInfo: LLVMtype.LLVMMetadataRef, Location: LLVMtype.LLVMMetadataRef, InsertBefore: LLVMtype.LLVMValueRef) LLVMDbgRecordRef;
+/// Insert a new llvm.dbg.label record at end of basic block (new debug format).
+pub extern fn LLVMDIBuilderInsertLabelAtEnd(Builder: LLVMtype.LLVMDIBuilderRef, LabelInfo: LLVMtype.LLVMMetadataRef, Location: LLVMtype.LLVMMetadataRef, InsertAtEnd: LLVMtype.LLVMBasicBlockRef) LLVMDbgRecordRef;
 pub extern fn LLVMGetMetadataKind(Metadata: LLVMtype.LLVMMetadataRef) LLVMtype.LLVMMetadataKind;

@@ -7,3 +7,6 @@ pub extern fn LLVMDisposeErrorMessage(ErrMsg: [*:0]u8) void;
 pub extern fn LLVMGetStringErrorTypeId() LLVMtype.LLVMErrorTypeId;
 /// Create a StringError.
 pub extern fn LLVMCreateStringError(ErrMst: [*:0]const u8) LLVMtype.LLVMErrorRef;
+/// Consume a successful error (one where LLVMGetErrorTypeId returns
+/// LLVMGetStringErrorTypeId). Panics if Err is not a success value.
+pub extern fn LLVMCantFail(Err: LLVMtype.LLVMErrorRef) void;

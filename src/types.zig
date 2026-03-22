@@ -605,6 +605,14 @@ pub const LLVMTargetRef = ?*LLVMTarget;
 // Target Machine
 pub const LLVMOpaqueTargetMachine = opaque {};
 pub const LLVMTargetMachineRef = ?*LLVMOpaqueTargetMachine;
+pub const LLVMOpaqueTargetMachineOptions = opaque {};
+pub const LLVMTargetMachineOptionsRef = ?*LLVMOpaqueTargetMachineOptions;
+
+pub const LLVMGlobalISelAbortMode = enum(c_int) {
+    LLVMGlobalISelAbortEnable,
+    LLVMGlobalISelAbortDisable,
+    LLVMGlobalISelAbortDisableWithDiag,
+};
 
 pub const LLVMCodeGenOptLevel = enum(c_int) {
     LLVMCodeGenLevelNone,
@@ -643,3 +651,11 @@ pub const LLVMLinkerMode = enum(c_int) {
     LLVMLinkerDestroySource = 0,
     LLVMLinkerPreserveSource_Removed = 1,
 };
+
+// Pass Builder
+pub const LLVMOpaquePassBuilderOptions = opaque {};
+pub const LLVMPassBuilderOptionsRef = ?*LLVMOpaquePassBuilderOptions;
+
+// Debug Record (new debug format)
+pub const LLVMOpaqueDbgRecord = opaque {};
+pub const LLVMDbgRecordRef = ?*LLVMOpaqueDbgRecord;

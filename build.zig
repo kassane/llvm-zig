@@ -74,6 +74,11 @@ pub fn build(b: *std.Build) !void {
             .target = target,
             .optimize = optimize,
         });
+        buildExample(b, .{
+            .filepath = "examples/kaleidoscope.zig",
+            .target = target,
+            .optimize = optimize,
+        });
     }
 
     buildTests(b, target);
